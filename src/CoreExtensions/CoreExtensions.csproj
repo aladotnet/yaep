@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <Version>0.1.0.0</Version>
+    <PackageVersion>0.1.0.0</PackageVersion>
+    <Description>YAEP Yet another extensions package is a collection of extension methods</Description>
+    <Authors>Ahmed Layachi</Authors>
+    <Company></Company>
+    <Copyright>Copyright 2020-2021 Ahmed Layachi</Copyright>
+    <RepositoryUrl>https://github.com/aladotnet/BlazoriseFluentValidation</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <OutputType>Library</OutputType>
+    <IsPackable>true</IsPackable>
+    <LangVersion>8.0</LangVersion>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <PackageId>YEAP</PackageId>
+    
+  </PropertyGroup>
+
+</Project>
