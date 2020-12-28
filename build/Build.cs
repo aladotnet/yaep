@@ -26,6 +26,9 @@ class Build : NukeBuild
 
     public static int Main() => Execute<Build>(x => x.Compile);
 
+
+    [Parameter("Nuget API key to publish the artifacts")]
+    readonly string NuGetApiKey;
     [Parameter("Configuration to build - Default is 'Debug' (local) or 'Release' (server)")]
     readonly Configuration Configuration = IsLocalBuild ? Configuration.Debug : Configuration.Release;
 

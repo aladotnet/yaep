@@ -2,13 +2,13 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <Version>0.1.0.0</Version>
-    <PackageVersion>0.1.0.0</PackageVersion>
+    <Version>0.1.1.0</Version>
+    <PackageVersion>0.1.1.0</PackageVersion>
     <Description>YAEP Yet another extensions package is a collection of extension methods</Description>
     <Authors>Ahmed Layachi</Authors>
     <Company></Company>
     <Copyright>Copyright 2020-2021 Ahmed Layachi</Copyright>
-    <RepositoryUrl>https://github.com/aladotnet/BlazoriseFluentValidation</RepositoryUrl>
+    <RepositoryUrl>https://github.com/aladotnet/yaep</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <OutputType>Library</OutputType>
     <IsPackable>true</IsPackable>
