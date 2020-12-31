@@ -27,6 +27,22 @@ namespace System
             return src.Contains(value);
         }
 
+        /// <summary>
+        /// Gets the string byte[] using the given encoding (defaults to UTF8) 
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="encoding"></param>
+        /// <returns></returns>
+        public static byte[] ToByteArray(this string value, Encoding encoding = null)
+        {
+            encoding ??= Encoding.UTF8;
+
+            if (value.IsNullOrEmpty())
+                return Array.Empty<byte>();
+
+            return encoding.GetBytes(value);
+        }
+
         public static string Concat(this string value,IEnumerable<string> values)
         {
             value.GuardAgainstNullOrEmpty(nameof(value));
