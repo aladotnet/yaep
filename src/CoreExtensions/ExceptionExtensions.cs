@@ -2,34 +2,47 @@
 {
     public static class ExceptionExtensions
     {
-        public static T GuargAgainstNull<T>(this T value, string parameterName) 
-            =>value
-             .GuargAgainst(v => ReferenceEquals(v, null), new ArgumentNullException(parameterName));
-        
+        [Obsolete("the name is misspelled, please use the method GuardAgainstNull instead")]
+        public static T GuargAgainstNull<T>(this T value, string parameterName)
+            => value.GuardAgainst(v => ReferenceEquals(v, null), new ArgumentNullException(parameterName));
 
+
+        [Obsolete("the name is misspelled, please use the method GuardAgainst instead")]
         public static T GuargAgainst<T>(this T value, Func<T, bool> predicate, string message)
-        {
-            predicate.GuargAgainstNull(nameof(predicate));
+        => value.GuardAgainst(predicate, message);
 
-            return 
-            value.GuargAgainst(predicate, new ArgumentException(message));
-        }
 
-        public static T GuargAgainst<T,TException>(this T value, Func<T, bool> predicate, TException exception)
+
+        [Obsolete("the name is misspelled, please use the method GuardAgainst instead")]
+        public static T GuargAgainst<T, TException>(this T value, Func<T, bool> predicate, TException exception)
             where TException : Exception
+        => value.GuardAgainst(predicate, exception);
+
+
+        public static T GuardAgainstNull<T>(this T value, string parameterName)
+            => value
+             .GuardAgainst(v => ReferenceEquals(v, null), new ArgumentNullException(parameterName));
+
+        public static T GuardAgainst<T>(this T value, Func<T, bool> predicate, string message)
         {
-            predicate.GuargAgainstNull(nameof(predicate));
+            predicate.GuardAgainstNull(nameof(predicate));
 
             return
-            value.GuargAgainst(predicate, exception);
+            value.GuardAgainst(predicate, new ArgumentException(message));
+        }
+
+        public static T GuardAgainst<T, TException>(this T value, Func<T, bool> predicate, TException exception)
+            where TException : Exception
+        {
+            predicate.GuardAgainstNull(nameof(predicate));
+
+            return
+            value.GuardAgainst(predicate, exception);
         }
 
         public static string GuardAgainstNullOrEmpty(this string value, string parameterName)
         => value
-           .GuargAgainst(v=> string.IsNullOrWhiteSpace(v), new ArgumentNullException(parameterName));
-
-        
-
+           .GuardAgainst(v => string.IsNullOrWhiteSpace(v), new ArgumentNullException(parameterName));
 
     }
 }
