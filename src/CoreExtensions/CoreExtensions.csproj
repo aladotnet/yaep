@@ -2,8 +2,8 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <Version>0.1.1.1</Version>
-    <PackageVersion>0.1.1.1</PackageVersion>
+    <Version>0.2.0.0</Version>
+    <PackageVersion>0.2.0.0</PackageVersion>
     <Description>YAEP Yet another extensions package is a collection of extension methods</Description>
     <Authors>Ahmed Layachi</Authors>
     <Company></Company>
