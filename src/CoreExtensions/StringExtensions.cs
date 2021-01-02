@@ -23,11 +23,6 @@ namespace System
        => src.GuardAgainstNullOrEmpty(nameof(src))
           .Equals(value, StringComparison.CurrentCultureIgnoreCase);
 
-        public static bool ContainsIgnoreCase(this string src, string value,StringComparison comparer = StringComparison.OrdinalIgnoreCase)
-        {
-            return src.Contains(value);
-        }
-
         /// <summary>
         /// Gets the string byte[] using the given encoding (defaults to UTF8) 
         /// </summary>
@@ -51,8 +46,10 @@ namespace System
             if (values.IsNullOrEmpty())
                 return value;
 
-            var result =  new string[] { value }.Union(values);
+            var result = new List<string> { value };
 
+            result.AddRange(values);
+                
             return string.Concat(result);
         }
 
