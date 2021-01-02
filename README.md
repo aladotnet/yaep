@@ -1,7 +1,6 @@
+![YAEP](https://github.com/aladotnet/yaep/blob/dev/Images/YAEP.png)
+
 # yaep
-
-![YAEP](images/YAEP.png)
-
 yet another extensions package is a collection of extension methods to increase code readability. 
 
 ### Install 
