@@ -66,10 +66,15 @@ class Build : NukeBuild
         });
 
     Target Test => _ => _
-    .Executes(() =>
-    {
-        DotNetTest();
-    });
+        .DependsOn(Compile)
+        .Executes(() =>
+        {
+            DotNetTest(s => s
+                .SetProjectFile(Solution)
+                .SetConfiguration(Configuration)
+                .EnableNoRestore()
+                .EnableNoBuild());
+        });
 
     Target Pack => _ => _
       .DependsOn(Clean, Compile,Test)

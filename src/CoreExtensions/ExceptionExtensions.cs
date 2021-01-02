@@ -2,23 +2,6 @@
 {
     public static class ExceptionExtensions
     {
-        [Obsolete("the name is misspelled, please use the method GuardAgainstNull instead")]
-        public static T GuargAgainstNull<T>(this T value, string parameterName)
-            => value.GuardAgainst(v => ReferenceEquals(v, null), new ArgumentNullException(parameterName));
-
-
-        [Obsolete("the name is misspelled, please use the method GuardAgainst instead")]
-        public static T GuargAgainst<T>(this T value, Func<T, bool> predicate, string message)
-        => value.GuardAgainst(predicate, message);
-
-
-
-        [Obsolete("the name is misspelled, please use the method GuardAgainst instead")]
-        public static T GuargAgainst<T, TException>(this T value, Func<T, bool> predicate, TException exception)
-            where TException : Exception
-        => value.GuardAgainst(predicate, exception);
-
-
         public static T GuardAgainstNull<T>(this T value, string parameterName)
             => !ReferenceEquals(value, null) ? value : throw new ArgumentNullException(parameterName);             
 
