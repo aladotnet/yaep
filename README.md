@@ -1,5 +1,7 @@
 # yaep
 
+![YAEP](images/YAEP.png)
+
 yet another extensions package is a collection of extension methods to increase code readability. 
 
 ### Install 
@@ -28,7 +30,5 @@ todo.DefaultIfNull(new Todo(Guid.Empty.ToString(), "--"));
 
 obj.AsTaskFromResult() => returns Task<objType>
 ```
-
-
 
 > **Note:** the namespaces maches the namespace of the extended Type so you don't have to change your usings
