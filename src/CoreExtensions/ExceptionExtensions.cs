@@ -20,8 +20,7 @@
 
 
         public static T GuardAgainstNull<T>(this T value, string parameterName)
-            => value
-             .GuardAgainst(v => ReferenceEquals(v, null), new ArgumentNullException(parameterName));
+            => !ReferenceEquals(value, null) ? value : throw new ArgumentNullException(parameterName);             
 
         public static T GuardAgainst<T>(this T value, Func<T, bool> predicate, string message)
         {
@@ -36,8 +35,10 @@
         {
             predicate.GuardAgainstNull(nameof(predicate));
 
-            return
-            value.GuardAgainst(predicate, exception);
+            if (predicate(value))
+                throw exception;
+            
+            return value;
         }
 
         public static string GuardAgainstNullOrEmpty(this string value, string parameterName)

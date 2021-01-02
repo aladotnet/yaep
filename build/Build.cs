@@ -50,7 +50,7 @@ class Build : NukeBuild
 
     Target Restore => _ => _
         .Executes(() =>
-        {
+        {            
             DotNetRestore(s => s
                 .SetProjectFile(Solution));
         });
@@ -65,8 +65,14 @@ class Build : NukeBuild
                 .EnableNoRestore());
         });
 
+    Target Test => _ => _
+    .Executes(() =>
+    {
+        DotNetTest();
+    });
+
     Target Pack => _ => _
-      .DependsOn(Clean, Compile)
+      .DependsOn(Clean, Compile,Test)
       .Executes(() =>
       {
           DotNetPack(s => s
