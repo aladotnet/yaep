@@ -1,8 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <Version>0.2.0.1</Version>
-    <PackageVersion>0.2.0.1</PackageVersion>
+    <Version>0.2.0.2</Version>
+    <PackageVersion>0.2.0.2</PackageVersion>
     <Description>YAEP Yet another extensions package is a collection of extension methods</Description>
     <Authors>Ahmed Layachi</Authors>
     <Company></Company>
@@ -14,7 +14,7 @@
     <LangVersion>8.0</LangVersion>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
-    <PackageId>YEAP</PackageId>
+    <PackageId>YAEP</PackageId>
     <ApplicationIcon>YAEP.ico</ApplicationIcon>
     <PackageProjectUrl>https://github.com/aladotnet/yaep</PackageProjectUrl>
     <PackageIcon>YAEP.png</PackageIcon>
