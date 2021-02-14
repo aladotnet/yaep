@@ -26,7 +26,7 @@ namespace System.Collections.Generic
         /// <param name="list"></param>
         /// <param name="value"></param>
         /// <returns></returns>
-        public static bool TryAdd<T>(this IList<T> list, T value)
+        public static bool TryAdd<T>(this ICollection<T> list, T value)
         {
             list.GuardAgainstNull(nameof(list));
             if (list.Contains(value))
@@ -46,7 +46,7 @@ namespace System.Collections.Generic
         /// <param name="value"></param>
         /// <returns></returns>
 
-        public static bool TryAdd<T>(this IList<T> list, T value, IEqualityComparer<T> comparer)
+        public static bool TryAdd<T>(this ICollection<T> list, T value, IEqualityComparer<T> comparer)
         {
             list.GuardAgainstNull(nameof(list));
             comparer.GuardAgainstNull(nameof(comparer));
@@ -66,7 +66,7 @@ namespace System.Collections.Generic
         /// <param name="value"></param>
         /// <returns></returns>
 
-        public static bool TryAdd<T>(this IList<T> list, T value, Func<T, T, bool> comparer)
+        public static bool TryAdd<T>(this ICollection<T> list, T value, Func<T, T, bool> comparer)
         {
             comparer.GuardAgainstNull(nameof(comparer));
             if (list.Any(v => comparer(v, value)))
@@ -84,7 +84,7 @@ namespace System.Collections.Generic
         /// <returns>
         ///   <br />
         /// </returns>
-        public static bool AddIf<TValue>(this IList<TValue> list, TValue value, Func<TValue, bool> predicate)
+        public static bool AddIf<TValue>(this ICollection<TValue> list, TValue value, Func<TValue, bool> predicate)
         {
             list.GuardAgainstNull(nameof(list));
             predicate.GuardAgainstNull(nameof(predicate));
@@ -104,7 +104,7 @@ namespace System.Collections.Generic
         /// <returns>
         ///   <br />
         /// </returns>
-        public static bool AddIfNot<TValue>(this IList<TValue> list, TValue value, Func<TValue, bool> predicate)
+        public static bool AddIfNot<TValue>(this ICollection<TValue> list, TValue value, Func<TValue, bool> predicate)
         {
             list.GuardAgainstNull(nameof(list));
             predicate.GuardAgainstNull(nameof(predicate));
@@ -181,7 +181,7 @@ namespace System.Collections.Generic
         /// <returns>
         ///   <br />
         /// </returns>
-        public static bool RemoveWhere<TValue>(this IList<TValue> list, Func<TValue, bool> predicate)
+        public static bool RemoveWhere<TValue>(this ICollection<TValue> list, Func<TValue, bool> predicate)
         {
             list.GuardAgainstNull(nameof(list));
             predicate.GuardAgainstNull(nameof(predicate));
@@ -200,7 +200,7 @@ namespace System.Collections.Generic
             return true;
         }
 
-        public static bool RemoveWhereNot<TValue>(this IList<TValue> list, Func<TValue, bool> predicate)
+        public static bool RemoveWhereNot<TValue>(this ICollection<TValue> list, Func<TValue, bool> predicate)
         {
             return list.RemoveWhere(v => !predicate(v));
         }
