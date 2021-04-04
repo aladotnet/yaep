@@ -117,6 +117,25 @@ namespace System.Collections.Generic
         }
 
 
+        /// <summary>
+        /// applies the where clause if the given predicate is true, otherwise returns the given list.
+        /// </summary>
+        /// <typeparam name="TValue"></typeparam>
+        /// <param name="values"></param>
+        /// <param name="whereClause"></param>
+        /// <param name="predicate"></param>
+        /// <returns></returns>
+        public static IEnumerable<TValue> WhereIf<TValue>(this IEnumerable<TValue> values,Func<TValue,bool> whereClause,Func<bool> predicate)
+        {
+            predicate.GuardAgainstNull(nameof(predicate));
+            whereClause.GuardAgainstNull(nameof(whereClause));
+
+            if (values.IsNullOrEmpty() || !predicate())
+                return values;
+
+            return values.Where(whereClause);
+        }
+
         /// <summary>Replaces all the entries that satisfies a specified condition with the given value</summary>
         /// <typeparam name="TValue">The type of the value.</typeparam>
         /// <param name="list">The list.</param>
