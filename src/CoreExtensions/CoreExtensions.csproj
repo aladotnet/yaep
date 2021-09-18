@@ -14,7 +14,7 @@
     <LangVersion>8.0</LangVersion>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
-    <PackageId>YEAP</PackageId>
+    <PackageId>YAEP</PackageId>
     <ApplicationIcon>YAEP.ico</ApplicationIcon>
     <PackageProjectUrl>https://github.com/aladotnet/yaep</PackageProjectUrl>
     <PackageIcon>YAEP.png</PackageIcon>
