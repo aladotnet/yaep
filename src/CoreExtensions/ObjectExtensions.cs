@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 
 namespace System
 {
@@ -25,5 +26,28 @@ namespace System
             return value;
         }
 
+        public static T Next<T>(this T @this, Func<T> action)
+        {
+            return
+            action();
+        }
+
+        public static TResult Next<TInput, TResult>(this TInput state, Func<TInput, TResult> action)
+        {
+            return
+            action(state);
+        }
+
+        public static Task<TResult> NextAsync<TInput, TResult>(this TInput state, Func<TInput, Task<TResult>> action)
+        {
+            return
+            action(state);
+        }
+
+        public static Task<T> NextAsync<T>(this T @this, Func<Task<T>> action)
+        {
+            return
+            action();
+        }
     }
 }

@@ -24,9 +24,14 @@
             return value;
         }
 
-        public static string GuardAgainstNullOrEmpty(this string value, string parameterName)
-        => value
-           .GuardAgainst(v => string.IsNullOrWhiteSpace(v), new ArgumentNullException(parameterName));
+        public static string GuardAgainstNullOrEmpty(this string value, string parameterName, string message = "")
+        {
+            var ex = message.IsNullOrEmpty() ? new ArgumentNullException(parameterName) : new ArgumentNullException(parameterName, message);
+            
+            return
+            value
+             .GuardAgainst(v => string.IsNullOrWhiteSpace(v), ex);
+        }
 
     }
 }
