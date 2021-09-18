@@ -12,7 +12,7 @@ namespace YEAPUsage
         {
             //throw an ArgumentNullException if the value is null or whitespace
             Id = id.GuardAgainstNullOrEmpty(nameof(id))
-                   .GuargAgainst(v=> !v.IsGuidValue(),$"the given id : [{id}] is not a valid guid");
+                .GuardAgainst(v=> !v.IsGuidValue(), $"the given id : [{id}] is not a valid guid");
 
             Description = description.GuardAgainstNullOrEmpty(nameof(description));
             
@@ -54,8 +54,62 @@ namespace YEAPUsage
 
             //todo.AsTaskFromResult() => returns Task<Todo>
 
+            ExampleOfNext.HandleState(new State(10));//value will be 2
+            
 
             Console.WriteLine("Hello World!");
         }
+    }
+
+    public static class ExampleOfNext
+    {
+        public static void HandleState(State state)
+        {
+            var newstate = state
+                        .Next(SetToZero)
+                        .Next(SetToOne)
+                        .Next(SetToToo);
+
+            Console.WriteLine($"State Value {newstate.Value}");
+        }
+
+        private static State SetToOne(State state)
+        {
+            if (state.Value == 1)
+                return state;
+
+            return state.Change(1);
+        }
+
+        private static State SetToToo(State state)
+        {
+            if (state.Value == 2)
+                return state;
+
+            return state.Change(2);
+        }
+
+        private static State SetToZero(State state)
+        {
+            if (state.Value == 0)
+                return state;
+
+            return state.Change(0);
+        }
+
+
+    }
+
+    public class State
+    {
+        public int Value { get; }
+
+        public State(int value)
+        {
+            Value = value;
+        }
+
+        public State Change(int value)
+            => new State(value);
     }
 }

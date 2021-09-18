@@ -6,6 +6,12 @@ namespace System.Collections.Generic
     {
         public static bool IsNullOrEmpty<T>(this IEnumerable<T> list) => list.IsNull() || !list.Any();
 
+        /// <summary>
+        /// checks wether the given collection is not null and not empty
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="list"></param>
+        /// <returns></returns>
         public static bool IsNotEmpty<T>(this IEnumerable<T> list) => !list.IsNull() && list.Any();
 
         public static IReadOnlyList<T> ToReadOnlyList<T>(this IEnumerable<T> items)
@@ -26,7 +32,7 @@ namespace System.Collections.Generic
         /// <param name="list"></param>
         /// <param name="value"></param>
         /// <returns></returns>
-        public static bool TryAdd<T>(this IList<T> list, T value)
+        public static bool TryAdd<T>(this ICollection<T> list, T value)
         {
             list.GuardAgainstNull(nameof(list));
             if (list.Contains(value))
@@ -46,7 +52,7 @@ namespace System.Collections.Generic
         /// <param name="value"></param>
         /// <returns></returns>
 
-        public static bool TryAdd<T>(this IList<T> list, T value, IEqualityComparer<T> comparer)
+        public static bool TryAdd<T>(this ICollection<T> list, T value, IEqualityComparer<T> comparer)
         {
             list.GuardAgainstNull(nameof(list));
             comparer.GuardAgainstNull(nameof(comparer));
@@ -66,7 +72,7 @@ namespace System.Collections.Generic
         /// <param name="value"></param>
         /// <returns></returns>
 
-        public static bool TryAdd<T>(this IList<T> list, T value, Func<T, T, bool> comparer)
+        public static bool TryAdd<T>(this ICollection<T> list, T value, Func<T, T, bool> comparer)
         {
             comparer.GuardAgainstNull(nameof(comparer));
             if (list.Any(v => comparer(v, value)))
@@ -84,7 +90,7 @@ namespace System.Collections.Generic
         /// <returns>
         ///   <br />
         /// </returns>
-        public static bool AddIf<TValue>(this IList<TValue> list, TValue value, Func<TValue, bool> predicate)
+        public static bool AddIf<TValue>(this ICollection<TValue> list, TValue value, Func<TValue, bool> predicate)
         {
             list.GuardAgainstNull(nameof(list));
             predicate.GuardAgainstNull(nameof(predicate));
@@ -104,7 +110,7 @@ namespace System.Collections.Generic
         /// <returns>
         ///   <br />
         /// </returns>
-        public static bool AddIfNot<TValue>(this IList<TValue> list, TValue value, Func<TValue, bool> predicate)
+        public static bool AddIfNot<TValue>(this ICollection<TValue> list, TValue value, Func<TValue, bool> predicate)
         {
             list.GuardAgainstNull(nameof(list));
             predicate.GuardAgainstNull(nameof(predicate));
@@ -165,7 +171,7 @@ namespace System.Collections.Generic
         }
 
         /// <summary>
-        /// Replaces the only element of a sequence that satisfies a specified condition or
+        /// Replaces the only element of a sequence that satisfies a condition or
         /// returns false if no such element exists; this method throws an exception if
         /// more than one element satisfies the condition.
         /// </summary>
