@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace System
@@ -54,6 +55,15 @@ namespace System
 
         public static bool IsGuidValue(this string value)
         => Guid.TryParse(value, out var g);
+
+        public static bool IsNumeric(this string value)
+        {
+            if(string.IsNullOrEmpty(value))
+                return false;
+
+            return
+            value.ToArray().All(c => Char.IsDigit(c));
+        }
         
     }
 }

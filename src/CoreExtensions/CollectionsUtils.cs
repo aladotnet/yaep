@@ -6,6 +6,12 @@ namespace System.Collections.Generic
     {
         public static bool IsNullOrEmpty<T>(this IEnumerable<T> list) => list.IsNull() || !list.Any();
 
+        /// <summary>
+        /// checks wether the given collection is not null and not empty
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="list"></param>
+        /// <returns></returns>
         public static bool IsNotEmpty<T>(this IEnumerable<T> list) => !list.IsNull() && list.Any();
 
         public static IReadOnlyList<T> ToReadOnlyList<T>(this IEnumerable<T> items)
@@ -117,6 +123,25 @@ namespace System.Collections.Generic
         }
 
 
+        /// <summary>
+        /// applies the where clause if the given predicate is true, otherwise returns the given list.
+        /// </summary>
+        /// <typeparam name="TValue"></typeparam>
+        /// <param name="values"></param>
+        /// <param name="whereClause"></param>
+        /// <param name="predicate"></param>
+        /// <returns></returns>
+        public static IEnumerable<TValue> WhereIf<TValue>(this IEnumerable<TValue> values,Func<TValue,bool> whereClause,Func<bool> predicate)
+        {
+            predicate.GuardAgainstNull(nameof(predicate));
+            whereClause.GuardAgainstNull(nameof(whereClause));
+
+            if (values.IsNullOrEmpty() || !predicate())
+                return values;
+
+            return values.Where(whereClause);
+        }
+
         /// <summary>Replaces all the entries that satisfies a specified condition with the given value</summary>
         /// <typeparam name="TValue">The type of the value.</typeparam>
         /// <param name="list">The list.</param>
@@ -146,7 +171,7 @@ namespace System.Collections.Generic
         }
 
         /// <summary>
-        /// Replaces the only element of a sequence that satisfies a specified condition or
+        /// Replaces the only element of a sequence that satisfies a condition or
         /// returns false if no such element exists; this method throws an exception if
         /// more than one element satisfies the condition.
         /// </summary>
