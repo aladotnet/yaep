@@ -25,14 +25,15 @@ namespace System.Xml.Linq
             element?.Attribute(attributeName)?.Value?.Contains(value) ?? false;
         }
 
-        public static XElement WtihName(this XElement element, string name)
+        public static XElement WithName(this XElement element, string name)
         {
             element.GuardAgainstNull(nameof(element))
                    .Name = name.GuardAgainstNull(nameof(name));
 
             return element;
         }
-        public static XElement WtihValue(this XElement element, string value)
+
+        public static XElement WithValue(this XElement element, string value)
         {
             element.GuardAgainstNull(nameof(element))
                    .Value = value.GuardAgainstNull(nameof(value));
