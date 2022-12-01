@@ -206,7 +206,7 @@ namespace System.Collections.Generic
         /// <returns>
         ///   <br />
         /// </returns>
-        public static bool RemoveWhere<TValue>(this IList<TValue> list, Func<TValue, bool> predicate)
+        public static bool RemoveWhere<TValue>(this ICollection<TValue> list, Func<TValue, bool> predicate)
         {
             list.GuardAgainstNull(nameof(list));
             predicate.GuardAgainstNull(nameof(predicate));
@@ -225,7 +225,7 @@ namespace System.Collections.Generic
             return true;
         }
 
-        public static bool RemoveWhereNot<TValue>(this IList<TValue> list, Func<TValue, bool> predicate)
+        public static bool RemoveWhereNot<TValue>(this ICollection<TValue> list, Func<TValue, bool> predicate)
         {
             return list.RemoveWhere(v => !predicate(v));
         }
