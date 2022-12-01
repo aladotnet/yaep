@@ -1,8 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
-    <Version>0.4.0.0</Version>
-    <PackageVersion>0.4.0.0</PackageVersion>
+    <TargetFramework>net7.0</TargetFramework>
+    <Version>0.5.0.0</Version>
+    <PackageVersion>0.5.0.0</PackageVersion>
     <Description>YAEP Yet another extensions package is a collection of extension methods</Description>
     <Authors>Ahmed Layachi</Authors>
     <Company></Company>
@@ -11,7 +11,7 @@
     <RepositoryType>git</RepositoryType>
     <OutputType>Library</OutputType>
     <IsPackable>true</IsPackable>
-    <LangVersion>8.0</LangVersion>
+    <LangVersion>10.0</LangVersion>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <PackageId>YAEP</PackageId>

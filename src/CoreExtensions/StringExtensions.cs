@@ -23,6 +23,9 @@ namespace System
        => src.GuardAgainstNullOrEmpty(nameof(src))
           .Equals(value, StringComparison.CurrentCultureIgnoreCase);
 
+        public static string EmptyIfNull(this string value)
+            => value ?? string.Empty;
+
         /// <summary>
         /// Gets the string byte[] using the given encoding (defaults to UTF8) 
         /// </summary>
