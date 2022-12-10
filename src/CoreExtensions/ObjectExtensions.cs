@@ -1,5 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 
 namespace System
 {
@@ -8,7 +7,7 @@ namespace System
         public static bool IsNull<T>(this T obj)
             where T : class
         {
-            return ReferenceEquals( obj , null);
+            return ReferenceEquals(obj, null);
         }
 
         public static bool IsNotNull<T>(this T obj)
@@ -18,7 +17,7 @@ namespace System
         }
 
         public static T DefaultIfNull<T>(this T value, T defaultValue)
-            where T:class
+            where T : class
         {
             if (value.IsNull())
                 return defaultValue;

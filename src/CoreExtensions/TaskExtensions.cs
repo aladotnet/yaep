@@ -14,7 +14,7 @@
         /// <param name="task"></param>
         /// <returns></returns>
         public static T GetAwaiterResult<T>(this Task<T> task)
-        {            
+        {
             return task.GetAwaiter().GetResult();
         }
     }

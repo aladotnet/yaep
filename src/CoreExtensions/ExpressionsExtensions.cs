@@ -17,13 +17,12 @@ namespace System
             return body.Member.Name;
         }
 
-
         public static Expression<Func<TObject, object>> ToPropertyExpression<TObject>(this TObject obj, string propertyName)
         {
-            return obj.ToPropertyExpression<TObject,object>(propertyName);
+            return obj.ToPropertyExpression<TObject, object>(propertyName);
         }
 
-        public static Expression<Func<TObject, TProp>> ToPropertyExpression<TObject, TProp>(this TObject obj, string propertyName)        
+        public static Expression<Func<TObject, TProp>> ToPropertyExpression<TObject, TProp>(this TObject obj, string propertyName)
         {
             propertyName.GuardAgainstNullOrEmpty(nameof(propertyName));
 
@@ -43,7 +42,7 @@ namespace System
         public static Func<TObject, TProp> ToPropertySelector<TObject, TProp>(this TObject obj, string propertyName)
         {
             var exp = obj.ToPropertyExpression<TObject, TProp>(propertyName);
-            
+
             return
             exp.Compile();
         }

@@ -3,7 +3,7 @@
     public static class ExceptionExtensions
     {
         public static T GuardAgainstNull<T>(this T value, string parameterName)
-            => !ReferenceEquals(value, null) ? value : throw new ArgumentNullException(parameterName);             
+            => !ReferenceEquals(value, null) ? value : throw new ArgumentNullException(parameterName);
 
         public static T GuardAgainst<T>(this T value, Func<T, bool> predicate, string message)
         {
@@ -20,18 +20,17 @@
 
             if (predicate(value))
                 throw exception;
-            
+
             return value;
         }
 
         public static string GuardAgainstNullOrEmpty(this string value, string parameterName, string message = "")
         {
             var ex = message.IsNullOrEmpty() ? new ArgumentNullException(parameterName) : new ArgumentNullException(parameterName, message);
-            
+
             return
             value
              .GuardAgainst(v => string.IsNullOrWhiteSpace(v), ex);
         }
-
     }
 }

@@ -1,9 +1,8 @@
-﻿
-namespace System.Xml.Linq
+﻿namespace System.Xml.Linq
 {
     public static class XElementExtensions
     {
-        public static string GetAttributeValue(this XElement xelement, string attributeName,string defaultValue = "")
+        public static string GetAttributeValue(this XElement xelement, string attributeName, string defaultValue = "")
         {
             attributeName.GuardAgainstNullOrEmpty(nameof(attributeName));
 
@@ -41,16 +40,14 @@ namespace System.Xml.Linq
             return element;
         }
 
-        public static bool LocalNameEquals(this XElement element, string value,bool ignoreCase = true)
+        public static bool LocalNameEquals(this XElement element, string value, bool ignoreCase = true)
         {
             element.GuardAgainstNull(nameof(element));
-            
+
             return
-            ignoreCase 
-                ? element.Name.LocalName.EqualsIgnoreCaseOrdinal(value) 
+            ignoreCase
+                ? element.Name.LocalName.EqualsIgnoreCaseOrdinal(value)
                 : element.Name.LocalName.Equals(value);
         }
-
-   
     }
 }

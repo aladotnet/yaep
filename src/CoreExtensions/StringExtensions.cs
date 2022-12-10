@@ -27,7 +27,7 @@ namespace System
             => value ?? string.Empty;
 
         /// <summary>
-        /// Gets the string byte[] using the given encoding (defaults to UTF8) 
+        /// Gets the string byte[] using the given encoding (defaults to UTF8)
         /// </summary>
         /// <param name="value"></param>
         /// <param name="encoding"></param>
@@ -42,7 +42,7 @@ namespace System
             return encoding.GetBytes(value);
         }
 
-        public static string Concat(this string value,IEnumerable<string> values)
+        public static string Concat(this string value, IEnumerable<string> values)
         {
             value.GuardAgainstNullOrEmpty(nameof(value));
 
@@ -52,7 +52,7 @@ namespace System
             var result = new List<string> { value };
 
             result.AddRange(values);
-                
+
             return string.Concat(result);
         }
 
@@ -61,12 +61,11 @@ namespace System
 
         public static bool IsNumeric(this string value)
         {
-            if(string.IsNullOrEmpty(value))
+            if (string.IsNullOrEmpty(value))
                 return false;
 
             return
             value.ToArray().All(c => Char.IsDigit(c));
         }
-        
     }
 }

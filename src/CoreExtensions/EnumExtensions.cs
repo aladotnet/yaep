@@ -9,15 +9,15 @@ namespace System
             where TEnum : struct
         {
             value.GuardAgainstNullOrEmpty(nameof(value));
-            return 
+            return
             (TEnum)Enum.Parse(typeof(TEnum), value, true);
         }
 
-        public static TEnum ToEnum<TEnum>(this string value,TEnum defaultValue)
+        public static TEnum ToEnum<TEnum>(this string value, TEnum defaultValue)
             where TEnum : struct
         {
-            return 
-            Enum.TryParse(value,true, out TEnum result )
+            return
+            Enum.TryParse(value, true, out TEnum result)
             ? result
             : defaultValue;
         }
@@ -26,7 +26,7 @@ namespace System
             where TEnum : struct
         {
             value.GuardAgainst(v => !v.GetType().IsEnum, $"the given value [{value}] is not an enum");
-            
+
             return
             Enum.GetValues(typeof(TEnum));
         }
@@ -35,22 +35,21 @@ namespace System
         where TEnum : struct
         {
             value.GuardAgainst(v => !v.GetType().IsEnum, $"the given value [{value}] is not an enum");
-            
+
             return
             Enum.GetNames(typeof(TEnum));
         }
 
         public static (string Name, int Value)[] ToNameValuePaires<TEnum>(this TEnum value)
         where TEnum : struct
-        {            
+        {
             var names = value.GetNames();
-            
+
             return
             value.GetValues().Cast<int>()
-               .Select((v,index)=> (names[index], v))
+               .Select((v, index) => (names[index], v))
                .ToArray();
         }
-
 
         public static int GetValue<TEnum>(this TEnum value, string name)
         where TEnum : struct
@@ -78,7 +77,5 @@ namespace System
                 .Single(nv => nv.Value.Equals(value))
                 .Name;
         }
-
-
     }
 }

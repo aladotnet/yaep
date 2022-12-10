@@ -42,7 +42,6 @@ namespace System.Collections.Generic
             return true;
         }
 
-
         /// <summary>
         /// Adds an item to the collection if the collection does not
         /// contain it using the given comparer to check the equality. returns ture if added otherwise it returns false
@@ -122,7 +121,6 @@ namespace System.Collections.Generic
             return true;
         }
 
-
         /// <summary>
         /// applies the where clause if the given predicate is true, otherwise returns the given list.
         /// </summary>
@@ -131,7 +129,7 @@ namespace System.Collections.Generic
         /// <param name="whereClause"></param>
         /// <param name="predicate"></param>
         /// <returns></returns>
-        public static IEnumerable<TValue> WhereIf<TValue>(this IEnumerable<TValue> values,Func<TValue,bool> whereClause,Func<bool> predicate)
+        public static IEnumerable<TValue> WhereIf<TValue>(this IEnumerable<TValue> values, Func<TValue, bool> whereClause, Func<bool> predicate)
         {
             predicate.GuardAgainstNull(nameof(predicate));
             whereClause.GuardAgainstNull(nameof(whereClause));
@@ -189,15 +187,13 @@ namespace System.Collections.Generic
 
             var item = list.SingleOrDefault(predicate);
 
-            if (EqualityComparer<TValue>.Default.Equals(item, default(TValue)))                
+            if (EqualityComparer<TValue>.Default.Equals(item, default(TValue)))
                 return false;
 
             var index = list.IndexOf(item);
             list[index] = value;
             return true;
         }
-
-
 
         /// <summary>Removes all elements that satisfies a specified condition or returns null if no such elements exists</summary>
         /// <typeparam name="TValue">The type of the value.</typeparam>
@@ -229,6 +225,5 @@ namespace System.Collections.Generic
         {
             return list.RemoveWhere(v => !predicate(v));
         }
-
     }
 }
