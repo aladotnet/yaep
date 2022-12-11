@@ -1,4 +1,7 @@
 {
   "$schema": "./build.schema.json",
-  "Solution": "YAEP.sln"
+  "Solution": "YAEP.sln",
+  "ArtifactsType": "*.nupkg",
+  "ExcludedArtifactsType": "symbols.nupkg",
+  "NugetFeed": "https://api.nuget.org/v3/index.json"
 }
