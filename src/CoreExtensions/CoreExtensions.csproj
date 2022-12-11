@@ -3,24 +3,34 @@
 	  <TargetFrameworks>netstandard2.1;net7.0</TargetFrameworks>
 	  <LangVersion>11</LangVersion>
 	  <ImplicitUsings>enable</ImplicitUsings>
+	  <Description>YAEP Yet another extensions package is a collection of extension methods</Description>
+	  <Authors>Ahmed Layachi</Authors>
+	  <Company></Company>
+	  <Copyright>Copyright $([System.DateTime]::Now.Year) Ahmed Layachi</Copyright>
+	  <RepositoryUrl>https://github.com/aladotnet/yaep</RepositoryUrl>
+	  <RepositoryType>git</RepositoryType>
+	  <OutputType>Library</OutputType>
+	  <IsPackable>true</IsPackable>
+	  <LangVersion>10.0</LangVersion>
+	  <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+	  <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+	  <PackageId>YAEP</PackageId>
+	  <ApplicationIcon>YAEP.ico</ApplicationIcon>
+	  <PackageProjectUrl>https://github.com/aladotnet/yaep</PackageProjectUrl>
+	  <PackageIcon>YAEP.png</PackageIcon>
+	  <PackageLicenseExpression>MIT</PackageLicenseExpression>
+	  <PackageTags>c#;dotnet;extensions;utils</PackageTags>
   </PropertyGroup>
 
 	<ItemGroup>
-    <Content Include="..\..\Images\YAEP.png">
-      <Pack>True</Pack>
-      <PackagePath></PackagePath>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
+		<None Include="..\..\Images\YAEP.png">
+			<Pack>True</Pack>
+			<PackagePath></PackagePath>
+		</None>
+	</ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="System.Text.Json" Version="4.7.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Update="YAEP.ico">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
   </ItemGroup>
 
 </Project>
