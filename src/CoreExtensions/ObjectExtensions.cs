@@ -1,53 +1,49 @@
-﻿using System;
-using System.Threading.Tasks;
-
-namespace System
+﻿namespace System
 {
     public static class ObjectExtensions
     {
+        /// <summary>
+        /// Determines whether this instance is null.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="obj">The object.</param>
+        /// <returns>
+        ///   <c>true</c> if the specified object is null; otherwise, <c>false</c>.
+        /// </returns>
         public static bool IsNull<T>(this T obj)
             where T : class
         {
-            return ReferenceEquals( obj , null);
+            return ReferenceEquals(obj, null);
         }
 
+        /// <summary>
+        /// Determines whether [is not null].
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="obj">The object.</param>
+        /// <returns>
+        ///   <c>true</c> if [is not null] [the specified object]; otherwise, <c>false</c>.
+        /// </returns>
         public static bool IsNotNull<T>(this T obj)
             where T : class
         {
             return !obj.IsNull();
         }
 
+        /// <summary>
+        /// Gets the given defaultValue if the value is null.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="value">The value.</param>
+        /// <param name="defaultValue">The default value.</param>
+        /// <returns></returns>
         public static T DefaultIfNull<T>(this T value, T defaultValue)
-            where T:class
+            where T : class
         {
             if (value.IsNull())
                 return defaultValue;
 
             return value;
-        }
-
-        public static T Next<T>(this T @this, Func<T> action)
-        {
-            return
-            action();
-        }
-
-        public static TResult Next<TInput, TResult>(this TInput state, Func<TInput, TResult> action)
-        {
-            return
-            action(state);
-        }
-
-        public static Task<TResult> NextAsync<TInput, TResult>(this TInput state, Func<TInput, Task<TResult>> action)
-        {
-            return
-            action(state);
-        }
-
-        public static Task<T> NextAsync<T>(this T @this, Func<Task<T>> action)
-        {
-            return
-            action();
         }
     }
 }

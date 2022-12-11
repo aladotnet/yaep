@@ -1,12 +1,17 @@
-﻿using System.Collections.Immutable;
-using System.Linq;
-using System.Text.Json.Serialization;
-
-namespace System.Text.Json
+﻿namespace System.Text.Json
 {
+    /// <summary>
+    /// json extensions.
+    /// </summary>
     public static class JsonSerializationExtensions
     {
-        
+        /// <summary>
+        /// deserializes the given Type from json.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="json">The json.</param>
+        /// <param name="config">The configuration.</param>
+        /// <returns>returns the deserialized object.</returns>
         public static T JsonDeserialize<T>(this string json, Action<JsonSerializerOptions> config = null)
         {
             JsonSerializerOptions options = null;
@@ -16,14 +21,20 @@ namespace System.Text.Json
                 config(options);
 
                 return
-                     JsonSerializer.Deserialize<T>(json,options);
+                     JsonSerializer.Deserialize<T>(json, options);
             }
 
             return
                 JsonSerializer.Deserialize<T>(json);
-
         }
 
+        /// <summary>
+        /// Converts to json.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="this">The this.</param>
+        /// <param name="config">The configuration.</param>
+        /// <returns>the json representation.</returns>
         public static string ToJson<T>(this T @this, Action<JsonSerializerOptions> config = null)
         {
             JsonSerializerOptions options = null;
@@ -33,7 +44,7 @@ namespace System.Text.Json
                 config(options);
 
                 return
-                JsonSerializer.Serialize(@this,options);
+                JsonSerializer.Serialize(@this, options);
             }
 
             return

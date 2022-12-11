@@ -6,6 +6,11 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "_build", "build\_build.csproj", "{C2642139-8161-4BCE-A199-1C64A2E73659}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{6ECC2C8B-136B-4DE2-BCF5-763A981C0B68}"
+	ProjectSection(SolutionItems) = preProject
+		Directory.build.props = Directory.build.props
+		GitVersion.yml = GitVersion.yml
+		NuGet.config = NuGet.config
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Extensions", "Extensions", "{E179BA3C-A109-4CEF-8DB2-FD3BAB33E3AC}"
 EndProject
