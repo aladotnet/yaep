@@ -12,10 +12,10 @@
 		<Description>YAEP Yet another extensions package is a collection of extension methods</Description>
 		<Authors>Ahmed Layachi</Authors>
 		<Copyright>Copyright $([System.DateTime]::Now.Year) Ahmed Layachi</Copyright>
-        <PackageTags>demo nuke</PackageTags>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
 		<RepositoryUrl>https://github.com/aladotnet/yaep</RepositoryUrl>
 		<PackageProjectUrl>https://github.com/aladotnet/yaep</PackageProjectUrl>
+		<Title>YAEP</Title>
 		<PackageId>YAEP</PackageId>
 		<ApplicationIcon>YAEP.ico</ApplicationIcon>
 		<PackageIcon>YAEP.png</PackageIcon>
@@ -26,7 +26,11 @@
 		<OutputType>Library</OutputType>
 		<IsPackable>true</IsPackable>
 	</PropertyGroup>
-
+	<!--<ItemGroup>
+		<Content Include="$(MSBuildThisFileDirectory)YAEP.png" Pack="true" PackagePath="/">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</Content>
+	</ItemGroup>-->
 	<ItemGroup>
 		<None Include="..\..\Images\YAEP.png">
 			<Pack>True</Pack>

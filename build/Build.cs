@@ -149,7 +149,6 @@ class Build : NukeBuild
               .SetRepositoryUrl(GitRepository.HttpsUrl)
               .SetVersion(GitVersion.NuGetVersionV2)
               .SetConfiguration(Configuration)
-              .EnableNoBuild()
               .EnableNoRestore());
       });
 
