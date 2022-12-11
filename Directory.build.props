@@ -17,7 +17,6 @@
 		<PackageProjectUrl>https://github.com/aladotnet/yaep</PackageProjectUrl>
 		<Title>YAEP</Title>
 		<PackageId>YAEP</PackageId>
-		<ApplicationIcon>YAEP.ico</ApplicationIcon>
 		<PackageIcon>YAEP.png</PackageIcon>
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
 		<PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
