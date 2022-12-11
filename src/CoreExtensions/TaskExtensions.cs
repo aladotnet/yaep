@@ -2,6 +2,12 @@
 {
     public static class TaskExtensions
     {
+        /// <summary>
+        /// gets a Task<typeparamref name="T"/> from the T.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="value">The value.</param>
+        /// <returns></returns>
         public static Task<T> AsTaskFromResult<T>(this T value)
         {
             return Task.FromResult(value);

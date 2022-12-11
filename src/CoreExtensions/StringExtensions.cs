@@ -1,28 +1,59 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Text;
 
 namespace System
 {
+    /// <summary>
+    /// string extension methods.
+    /// </summary>
     public static class StringExtensions
     {
+        /// <summary>
+        /// Determines whether [is null or empty].
+        /// </summary>
+        /// <param name="value">The value.</param>
+        /// <returns>
+        ///   <c>true</c> if [is null or empty] [the specified value]; otherwise, <c>false</c>.
+        /// </returns>
         public static bool IsNullOrEmpty(this string value)
         {
             return string.IsNullOrWhiteSpace(value);
         }
 
+        /// <summary>
+        /// performs the Equals call with StringComparison.InvariantCultureIgnoreCase.
+        /// </summary>
+        /// <param name="src">The source.</param>
+        /// <param name="value">The value.</param>
+        /// <returns></returns>
         public static bool EqualsIgnoreCaseInvariant(this string src, string value)
         => src.GuardAgainstNullOrEmpty(nameof(src))
            .Equals(value, StringComparison.InvariantCultureIgnoreCase);
 
+        /// <summary>performs the Equals call with StringComparison.OrdinalIgnoreCase.</summary>
+        /// <param name="src">The source.</param>
+        /// <param name="value">The value.</param>
+        /// <returns>
+        ///   <br />
+        /// </returns>
         public static bool EqualsIgnoreCaseOrdinal(this string src, string value)
        => src.GuardAgainstNullOrEmpty(nameof(src))
           .Equals(value, StringComparison.OrdinalIgnoreCase);
 
+        /// <summary>
+        /// performs the Equals call with StringComparison.CurrentCultureIgnoreCase.
+        /// </summary>
+        /// <param name="src">src.</param>
+        /// <param name="value">value.</param>
+        /// <returns>true for equal false if not.</returns>
         public static bool EqualsIgnoreCaseCurrent(this string src, string value)
        => src.GuardAgainstNullOrEmpty(nameof(src))
           .Equals(value, StringComparison.CurrentCultureIgnoreCase);
 
+        /// <summary>
+        /// returns an empty string if the given value is null.
+        /// </summary>
+        /// <param name="value">The value.</param>
+        /// <returns>the given value or empty string if it is null.</returns>
         public static string EmptyIfNull(this string value)
             => value ?? string.Empty;
 
@@ -42,6 +73,12 @@ namespace System
             return encoding.GetBytes(value);
         }
 
+        /// <summary>
+        /// Concats the given string vlaues to a single string value.
+        /// </summary>
+        /// <param name="value">the initial value</param>
+        /// <param name="values">values that will be concatinated.</param>
+        /// <returns>concatinated string.</returns>
         public static string Concat(this string value, IEnumerable<string> values)
         {
             value.GuardAgainstNullOrEmpty(nameof(value));
@@ -56,6 +93,11 @@ namespace System
             return string.Concat(result);
         }
 
+        /// <summary>
+        /// checks wether the given string value a valid guid value or not.
+        /// </summary>
+        /// <param name="value">The value.</param>
+        /// <returns>A bool.</returns>
         public static bool IsGuidValue(this string value)
         => Guid.TryParse(value, out var g);
 
