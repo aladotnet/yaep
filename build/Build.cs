@@ -174,11 +174,14 @@ class Build : NukeBuild
        });
     Target PublishToNuGet => _ => _
        .Description($"Publishing to NuGet with the version.")
-       .Triggers(CreateRelease)
-       .Requires(() => Configuration.Equals(Configuration.Release))
-       .OnlyWhenStatic(() => GitRepository.IsOnMainOrMasterBranch())
+       //.Triggers(CreateRelease)
+       //.Requires(() => Configuration.Equals(Configuration.Release))
+       //.OnlyWhenStatic(() => GitRepository.IsOnMainOrMasterBranch())
        .Executes(() =>
        {
+           if (NuGetApiKey.IsNullOrEmpty())
+               Serilog.Log.Warning("No API Key found");
+
            GlobFiles(ArtifactsDirectory, ArtifactsType)
                .Where(x => !x.EndsWith(ExcludedArtifactsType))
                .ForEach(x =>
