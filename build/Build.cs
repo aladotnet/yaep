@@ -144,6 +144,7 @@ class Build : NukeBuild
       {
           DotNetPack(s => s
               .SetProject(Solution.Extensions.CoreExtensions)
+              .SetPackageId("yaep")
               .SetOutputDirectory(ArtifactsDirectory)
               .SetNoBuild(SucceededTargets.Contains(Compile))
               .SetRepositoryUrl(GitRepository.HttpsUrl)
