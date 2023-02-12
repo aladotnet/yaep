@@ -53,13 +53,9 @@ namespace YEAPUsage
             //todo.DefaultIfNull(new Todo(Guid.Empty.ToString(), "--"));
 
             //todo.AsTaskFromResult() => returns Task<Todo>
-            
-
-            Console.WriteLine("Hello World!");
         }
     }
 
-   
     public class State
     {
         public int Value { get; }
