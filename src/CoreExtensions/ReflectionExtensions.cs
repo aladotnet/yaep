@@ -1,4 +1,4 @@
-﻿namespace System.Threading.Tasks
+﻿namespace System
 {
     public static class ReflectionExtensions
     {
@@ -10,7 +10,7 @@
         /// <returns>
         ///   <c>true</c> if [is subclass of generic base] [the specified generic base type]; otherwise, <c>false</c>.
         /// </returns>
-        public static bool IsSubclassOfGenericBase(this Type subType, Type genericBaseType)
+        public static bool IsSubClassOfGenericBase(this Type subType, Type genericBaseType)
         {
             while (subType.IsNotNull() && subType != typeof(object))
             {
