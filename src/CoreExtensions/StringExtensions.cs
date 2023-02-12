@@ -109,5 +109,14 @@ namespace System
             return
             value.ToArray().All(c => Char.IsDigit(c));
         }
+
+        /// <summary>
+        /// returns the given defaultValue if the given value is null.
+        /// </summary>
+        /// <param name="value">The string value.</param>
+        /// <param name="defaultValue">The default value.</param>
+        /// <returns>returns the defaultvalue if value is null otherwise it returns the value.</returns>
+        public static string DefaultIfNull(this string value, string defaultValue = "")
+        => value.DefaultIfNull(defaultValue);
     }
 }
