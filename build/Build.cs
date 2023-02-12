@@ -56,6 +56,8 @@ class Build : NukeBuild
     ///   - Microsoft VisualStudio     https://nuke.build/visualstudio
     ///   - Microsoft VSCode           https://nuke.build/vscode
 
+    //terminal command : nuke Pack --nuget-api-key apiKey --configuration 'Release'
+
     public static int Main() => Execute<Build>(x => x.Compile);
 
     [Parameter("Nuget Feed Url for Public Access of Pre Releases")]
@@ -137,11 +139,15 @@ class Build : NukeBuild
     Target Pack => _ => _
       .Description($"Packing Project with the version.")
       .Requires(() => Configuration.Equals(Configuration.Release))
+      .Requires(() => !string.IsNullOrWhiteSpace(NuGetApiKey))
       .Produces(ArtifactsDirectory / ArtifactsType)
-      .Triggers(PublishToGithub /*,PublishToNuGet*/ )
+      //.Triggers(PublishToGithub, PublishToNuGet)
+      .Triggers(PublishToNuGet)
       .DependsOn(Compile, Test)
       .Executes(() =>
       {
+          Serilog.Log.Information("Solution ");
+
           DotNetPack(s => s
               .SetProject(Solution.Extensions.CoreExtensions)
               .SetPackageId("yaep")
@@ -150,12 +156,13 @@ class Build : NukeBuild
               .SetRepositoryUrl(GitRepository.HttpsUrl)
               .SetVersion(GitVersion.NuGetVersionV2)
               .SetConfiguration(Configuration)
-              .EnableNoRestore());
+              .EnableNoRestore()
+              .EnableNoBuild());
       });
 
     Target PublishToGithub => _ => _
        .Description($"Publishing to Github for Development only.")
-       .Triggers(CreateRelease)
+       //.Triggers(CreateRelease)
        .Requires(() => Configuration.Equals(Configuration.Release))
        .OnlyWhenStatic(() => GitRepository.IsOnDevelopBranch() || GitHubActions.IsPullRequest)
        .Executes(() =>
@@ -174,13 +181,18 @@ class Build : NukeBuild
        });
     Target PublishToNuGet => _ => _
        .Description($"Publishing to NuGet with the version.")
-       .Triggers(CreateRelease)
+       //.Triggers(CreateRelease)
        .Requires(() => Configuration.Equals(Configuration.Release))
        .OnlyWhenStatic(() => GitRepository.IsOnMainOrMasterBranch())
        .Executes(() =>
        {
+           Serilog.Log.Information("ApiKey {0}", NuGetApiKey);
+
            if (NuGetApiKey.IsNullOrEmpty())
-               Serilog.Log.Error("No API Key found");
+           {
+               Serilog.Log.Warning("No API Key found");
+               return;
+           }
 
            GlobFiles(ArtifactsDirectory, ArtifactsType)
                .Where(x => !x.EndsWith(ExcludedArtifactsType))
@@ -189,7 +201,7 @@ class Build : NukeBuild
                    DotNetNuGetPush(s => s
                        .SetTargetPath(x)
                        .SetSource(NugetFeed)
-                       .SetApiKey(NuGetApiKey)
+                       .SetApiKey(NuGetApiKey)                       
                        .EnableSkipDuplicate()
                    );
                });
@@ -208,6 +220,8 @@ class Build : NukeBuild
            var (owner, name) = (GitRepository.GetGitHubOwner(), GitRepository.GetGitHubName());
 
            var releaseTag = GitVersion.NuGetVersionV2;
+
+
            var changeLogSectionEntries = ChangelogTasks.ExtractChangelogSectionNotes(ChangeLogFile);
            var latestChangeLog = changeLogSectionEntries
                .Aggregate((c, n) => c + Environment.NewLine + n);
@@ -221,10 +235,41 @@ class Build : NukeBuild
                Body = latestChangeLog
            };
 
+           var release = GitHubTasks
+                         .GitHubClient
+                         .Repository
+                         .Release;
+
+           if (release is null)
+           {
+               Serilog.Log.Error("Release client is null");
+               return;
+           }
+
+
            var createdRelease = await GitHubTasks
                                        .GitHubClient
                                        .Repository
                                        .Release.Create(owner, name, newRelease);
+
+           if (string.IsNullOrEmpty(ArtifactsType))
+           {
+               Serilog.Log.Error("ArtifactsType is null");
+               return;
+           }
+           var globalfiles = GlobFiles(ArtifactsDirectory, ArtifactsType)
+                         .Where(x => !x.EndsWith(ExcludedArtifactsType)).ToArray();
+
+           if (globalfiles.IsNullOrEmpty())
+           {
+               Serilog.Log.Error("GlobalFiles is null");
+               return;
+           }
+
+           foreach (var item in globalfiles)
+           {
+               Serilog.Log.Information("Globalfile : {0}", item);
+           }
 
            GlobFiles(ArtifactsDirectory, ArtifactsType)
               .Where(x => !x.EndsWith(ExcludedArtifactsType))

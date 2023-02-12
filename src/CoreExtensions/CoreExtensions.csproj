@@ -15,29 +15,23 @@
 	  <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
 	  <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
 	  <PackageId>YAEP</PackageId>
-	  <ApplicationIcon>YAEP.ico</ApplicationIcon>
 	  <PackageProjectUrl>https://github.com/aladotnet/yaep</PackageProjectUrl>
 	  <PackageIcon>YAEP.png</PackageIcon>
 	  <PackageLicenseExpression>MIT</PackageLicenseExpression>
 	  <PackageTags>c#;dotnet;extensions;utils</PackageTags>
-
-
-
-
-
 	  <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|netstandard2.1|AnyCPU'">
-    <DebugType>embedded</DebugType>
+    <DebugType>portable</DebugType>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|netstandard2.1|AnyCPU'">
-    <DebugType>embedded</DebugType>
+    <DebugType>portable</DebugType>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net7.0|AnyCPU'">
-    <DebugType>embedded</DebugType>
+    <DebugType>portable</DebugType>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net7.0|AnyCPU'">
-    <DebugType>embedded</DebugType>
+    <DebugType>portable</DebugType>
   </PropertyGroup>
 
 	<ItemGroup>

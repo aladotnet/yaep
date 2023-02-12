@@ -3,6 +3,20 @@
     public static class XElementExtensions
     {
         /// <summary>
+        /// Gets the root parnet of the given element.
+        /// root parent is an ancestor witch does not have a parent.
+        /// </summary>
+        /// <param name="element">The element.</param>
+        /// <returns>
+        /// XElement
+        /// </returns>
+        public static XElement RootParent(this XElement element)
+          => element?.Ancestors()
+             .DefaultIfEmpty()
+             .OfType<XElement>()
+             .FirstOrDefault(x=> x.Parent.IsNull());
+        
+        /// <summary>
         /// Gets the attribute value.
         /// </summary>
         /// <param name="xelement">The xelement.</param>

@@ -6,7 +6,6 @@ using Xunit;
 
 namespace YAEP.Tests
 {
-
     public class CollectionExtensionsTests
     {
 
