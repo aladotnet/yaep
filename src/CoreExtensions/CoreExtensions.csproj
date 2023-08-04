@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-	  <TargetFrameworks>netstandard2.1;net7.0</TargetFrameworks>
+	  <TargetFramework>net7.0</TargetFramework>
 	  <LangVersion>11</LangVersion>
 	  <ImplicitUsings>enable</ImplicitUsings>
 	  <Description>YAEP Yet another extensions package is a collection of extension methods</Description>
@@ -11,7 +11,6 @@
 	  <RepositoryType>git</RepositoryType>
 	  <OutputType>Library</OutputType>
 	  <IsPackable>true</IsPackable>
-	  <LangVersion>10.0</LangVersion>
 	  <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
 	  <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
 	  <PackageId>YAEP</PackageId>
@@ -21,28 +20,10 @@
 	  <PackageTags>c#;dotnet;extensions;utils</PackageTags>
 	  <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|netstandard2.1|AnyCPU'">
-    <DebugType>portable</DebugType>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|netstandard2.1|AnyCPU'">
-    <DebugType>portable</DebugType>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net7.0|AnyCPU'">
-    <DebugType>portable</DebugType>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net7.0|AnyCPU'">
-    <DebugType>portable</DebugType>
-  </PropertyGroup>
-
 	<ItemGroup>
 		<None Include="..\..\Images\YAEP.png">
 			<Pack>True</Pack>
 			<PackagePath></PackagePath>
 		</None>
 	</ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="System.Text.Json" Version="4.7.0" />
-  </ItemGroup>
-
 </Project>
