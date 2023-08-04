@@ -118,5 +118,11 @@ namespace System
         /// <returns>returns the defaultvalue if value is null otherwise it returns the value.</returns>
         public static string DefaultIfNull(this string value, string defaultValue = "")
         => value.DefaultIfNull(defaultValue);
+
+        public static string ReplaceIf(this string value, Func<bool> predicate, string oldValue, string newValue)
+            => predicate
+               .GuardAgainstNull(nameof(predicate))
+               .Invoke() ? value.Replace(oldValue, newValue)
+                         : value;
     }
 }
