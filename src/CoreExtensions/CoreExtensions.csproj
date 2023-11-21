@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-	  <TargetFramework>net7.0</TargetFramework>
+	  <TargetFramework>net8.0</TargetFramework>
 	  <LangVersion>11</LangVersion>
 	  <ImplicitUsings>enable</ImplicitUsings>
 	  <Description>YAEP Yet another extensions package is a collection of extension methods</Description>
