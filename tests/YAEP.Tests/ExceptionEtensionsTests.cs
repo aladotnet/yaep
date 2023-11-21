@@ -2,7 +2,7 @@
 using System;
 using Xunit;
 
-namespace YAEP.Tests
+namespace YAEPTests
 {
     public class ExceptionEtensionsTests
     {
@@ -34,7 +34,7 @@ namespace YAEP.Tests
         [Fact]
         public void GuardAgainstNull_given_a_non_null_returns_the_value()
         {
-            var person = new Person("Test","Test");
+            var person = new Person("Test", "Test");
             var result = person.GuardAgainstNull(nameof(person));
 
             result.FirstName.Should().Be("Test");

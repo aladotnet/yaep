@@ -1,4 +1,6 @@
-﻿namespace System.Text
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace System.Text
 {
     /// <summary>
     /// 
@@ -12,7 +14,7 @@
         /// <param name="predicate"></param>
         /// <param name="text"></param>
         /// <returns></returns>
-        public static StringBuilder AppendIf(this StringBuilder builder, Func<bool> predicate, string text)
+        public static StringBuilder AppendIf([NotNull] this StringBuilder builder, [NotNull] Func<bool> predicate, string text)
             => predicate
                 .GuardAgainstNull(nameof(predicate))
                 .Invoke() ? builder.Append(text)

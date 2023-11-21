@@ -1,0 +1,25 @@
+﻿{
+  AllPaths: [
+    C:\,
+    C:\temp,
+    c:\parent2,
+    c:\parent2\sub1,
+    c:\f1,
+    c:\f1\f2,
+    c:\f1\f2\f4,
+    c:\f1\f2\f4\f5,
+    c:\f1\f2\f4\f5\myfile2.txt,
+    c:\parent2\sub1\f1,
+    c:\parent2\sub1\f1\f2,
+    c:\parent2\sub1\f1\f2\f4,
+    c:\parent2\sub1\f1\f2\f4\f5,
+    c:\parent2\sub1\f1\f2\f4\f5\myfile2.txt
+  ],
+  addedFilesAndDirs: [
+    c:\parent2\sub1\f1,
+    c:\parent2\sub1\f1\f2,
+    c:\parent2\sub1\f1\f2\f4,
+    c:\parent2\sub1\f1\f2\f4\f5,
+    c:\parent2\sub1\f1\f2\f4\f5\myfile2.txt
+  ]
+}

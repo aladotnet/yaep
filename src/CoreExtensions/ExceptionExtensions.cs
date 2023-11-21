@@ -14,7 +14,12 @@
         /// <returns></returns>
         /// <exception cref="System.ArgumentNullException"></exception>
         public static T GuardAgainstNull<T>(this T value, string parameterName)
-            => !ReferenceEquals(value, null) ? value : throw new ArgumentNullException(parameterName);
+            => value is not null ? value : throw new ArgumentNullException(parameterName);
+
+        public static T GuardAgainstNull<T,TException>(this T value, TException exception)
+            where TException : Exception
+            => value is not null ? value : throw exception;
+
 
         /// <summary>
         /// Guards against the given predicate.

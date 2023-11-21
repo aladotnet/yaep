@@ -21,9 +21,16 @@
 	  <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
 	<ItemGroup>
+   
 		<None Include="..\..\Images\YAEP.png">
 			<Pack>True</Pack>
 			<PackagePath></PackagePath>
 		</None>
 	</ItemGroup>
+  <ItemGroup>
+    
+    <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
+      <_Parameter1>YAEPTests</_Parameter1>
+    </AssemblyAttribute>
+  </ItemGroup>
 </Project>

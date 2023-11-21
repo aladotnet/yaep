@@ -1,4 +1,6 @@
-﻿namespace System
+﻿using System.Reflection;
+
+namespace System
 {
     public static class ReflectionExtensions
     {
@@ -23,5 +25,9 @@
             }
             return false;
         }
+
+        public static bool HasCustomAttribute<TAttribute>(this Type type)
+            where TAttribute : Attribute
+            => type.GetCustomAttribute<TAttribute>().IsNotNull();
     }
 }

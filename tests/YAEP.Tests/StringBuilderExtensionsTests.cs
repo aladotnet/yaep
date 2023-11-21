@@ -2,7 +2,7 @@
 using System.Text;
 using Xunit;
 
-namespace YAEP.Tests
+namespace YAEPTests
 {
     public class StringBuilderExtensionsTests
     {

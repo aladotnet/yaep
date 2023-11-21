@@ -6,7 +6,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\CoreExtensions\CoreExtensions.csproj" />
+    <PackageReference Update="System.Text.Json" Version="7.0.3" />
   </ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\..\src\CoreExtensions\CoreExtensions.csproj" />
+	</ItemGroup>
 
 </Project>

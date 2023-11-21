@@ -4,7 +4,8 @@ using System.Collections.Generic;
 using System.Linq;
 using Xunit;
 
-namespace YAEP.Tests
+
+namespace YAEPTests
 {
     public class CollectionExtensionsTests
     {

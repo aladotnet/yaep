@@ -3,7 +3,7 @@ using System.Linq;
 using System.Xml.Linq;
 using Xunit;
 
-namespace YAEP.Tests
+namespace YAEPTests
 {
     public class XElementExtensionsTests
     {
@@ -15,7 +15,7 @@ namespace YAEP.Tests
             var doc = XElement.Parse(xml);
 
             var child = doc.Descendants("child").Single();
-            
+
             child.RootParent().Name.LocalName.Should().Be("root");
         }
 
@@ -25,7 +25,7 @@ namespace YAEP.Tests
             var xml = @"<root><parent><child></child></parent></root>";
 
             var doc = XElement.Parse(xml);
-            
+
             doc.RootParent().Should().BeNull();
         }
 

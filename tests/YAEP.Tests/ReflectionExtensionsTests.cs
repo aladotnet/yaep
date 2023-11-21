@@ -3,7 +3,7 @@ using System;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace YAEP.Tests
+namespace YAEPTests
 {
     public class ReflectionExtensionsTests
     {
