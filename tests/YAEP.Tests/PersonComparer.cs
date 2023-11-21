@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 
-namespace YAEP.Tests
+namespace YAEPTests
 {
     public class PersonComparer : IEqualityComparer<Person>
     {
@@ -20,9 +20,9 @@ namespace YAEP.Tests
 
         public int GetHashCode([DisallowNull] Person obj)
         {
-            int hash = 13;
-            hash = (hash * 7) + obj.FirstName.GetHashCode();
-            hash = (hash * 7) + obj.LastName.GetHashCode();           
+            var hash = 13;
+            hash = hash * 7 + obj.FirstName.GetHashCode();
+            hash = hash * 7 + obj.LastName.GetHashCode();
             return hash;
         }
     }

@@ -1,8 +1,9 @@
 ﻿using FluentAssertions;
+using System;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace YAEP.Tests
+namespace YAEPTests
 {
     public class ReflectionExtensionsTests
     {
@@ -12,7 +13,7 @@ namespace YAEP.Tests
             var subType = typeof(Derived);
             var baseType = typeof(Base<>);
 
-            subType.IsSubclassOfGenericBase(baseType).Should().BeTrue();
+            subType.IsSubClassOfGenericBase(baseType).Should().BeTrue();
         }
 
         class Base<T>

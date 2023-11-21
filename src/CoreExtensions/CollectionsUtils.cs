@@ -221,6 +221,17 @@ namespace System.Collections.Generic
             return true;
         }
 
+        public static bool RemoveFirst<T>(this ICollection<T> list)
+        {
+            list.GuardAgainstNull(nameof(list));
+
+            if(!list.Any())
+                return false;
+
+            return
+            list.Remove(list.First());
+        }
+
         public static bool RemoveWhereNot<TValue>(this ICollection<TValue> list, Func<TValue, bool> predicate)
         {
             return list.RemoveWhere(v => !predicate(v));

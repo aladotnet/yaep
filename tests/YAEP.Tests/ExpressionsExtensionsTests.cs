@@ -3,7 +3,7 @@ using System;
 using System.Linq.Expressions;
 using Xunit;
 
-namespace YAEP.Tests
+namespace YAEPTests
 {
     public class ExpressionsExtensionsTests
     {
@@ -23,7 +23,7 @@ namespace YAEP.Tests
         {
             var p = new Person("Test", "Test");
 
-            Assert.Throws<ArgumentException>( ()=> p.ToPropertyExpression<Person, string>("ID"));
+            Assert.Throws<ArgumentException>(() => p.ToPropertyExpression<Person, string>("ID"));
         }
 
         [Fact]

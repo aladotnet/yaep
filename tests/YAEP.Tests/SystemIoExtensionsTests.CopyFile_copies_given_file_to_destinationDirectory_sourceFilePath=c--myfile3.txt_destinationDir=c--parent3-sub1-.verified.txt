@@ -1,0 +1,13 @@
+﻿{
+  AllPaths: [
+    C:\,
+    C:\temp,
+    c:\parent3,
+    c:\parent3\sub1,
+    c:\myfile3.txt,
+    c:\parent3\sub1\myfile3.txt
+  ],
+  addedFilesAndDirs: [
+    c:\parent3\sub1\myfile3.txt
+  ]
+}

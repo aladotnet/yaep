@@ -2,7 +2,7 @@
 using System;
 using Xunit;
 
-namespace YAEP.Tests
+namespace YAEPTests
 {
     public class StringExtensionsTests
     {
@@ -17,7 +17,7 @@ namespace YAEP.Tests
         [Fact]
         public void IsNullOrEmpty_Given_none_null_returns_false()
         {
-            string value = "Test";
+            var value = "Test";
 
             value.IsNullOrEmpty().Should().BeFalse();
         }
@@ -26,15 +26,15 @@ namespace YAEP.Tests
         public void DefaultIfNull_Given_null_returns_defaultValue()
         {
             string value = null;
-            string defaulValue = "default";
+            var defaulValue = "default";
             value.DefaultIfNull(defaulValue).Should().Be(defaulValue);
         }
 
         [Fact]
         public void DefaultIfNull_Given_non_null_returns_value()
         {
-            string value = "test";
-            string defaulValue = "default";
+            var value = "test";
+            var defaulValue = "default";
             value.DefaultIfNull(defaulValue).Should().Be(value);
         }
     }
