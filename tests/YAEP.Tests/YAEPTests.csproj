@@ -28,9 +28,4 @@
   <ItemGroup>
     <ProjectReference Include="..\..\src\CoreExtensions\CoreExtensions.csproj" />
   </ItemGroup>
-
-  <!--<ItemGroup>
-    <ProjectReference Include="..\..\src\CoreExtensions\CoreExtensions.csproj" />
-  </ItemGroup>-->
-
 </Project>

@@ -1,4 +1,4 @@
-﻿using System.Text;
+using System.Text;
 
 namespace System
 {
@@ -63,7 +63,7 @@ namespace System
         /// <param name="value"></param>
         /// <param name="encoding"></param>
         /// <returns></returns>
-        public static byte[] ToByteArray(this string value, Encoding encoding = null)
+        public static byte[] ToByteArray(this string value, Encoding? encoding = null)
         {
             encoding ??= Encoding.UTF8;
 
@@ -101,13 +101,18 @@ namespace System
         public static bool IsGuidValue(this string value)
         => Guid.TryParse(value, out var g);
 
+        /// <summary>
+        /// Gets whether the given string represents a numeric value.
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns>true if numeric, false if not.</returns>
         public static bool IsNumeric(this string value)
         {
             if (string.IsNullOrEmpty(value))
                 return false;
 
             return
-            value.ToArray().All(c => Char.IsDigit(c));
+            value.ToArray().All(c => char.IsDigit(c));
         }
 
         /// <summary>
@@ -117,12 +122,6 @@ namespace System
         /// <param name="defaultValue">The default value.</param>
         /// <returns>returns the defaultvalue if value is null otherwise it returns the value.</returns>
         public static string DefaultIfNull(this string value, string defaultValue = "")
-        => value.DefaultIfNull(defaultValue);
-
-        public static string ReplaceIf(this string value, Func<bool> predicate, string oldValue, string newValue)
-            => predicate
-               .GuardAgainstNull(nameof(predicate))
-               .Invoke() ? value.Replace(oldValue, newValue)
-                         : value;
+        => value.IsNullOrEmpty() ? defaultValue : value;
     }
 }
