@@ -1,54 +1,54 @@
-﻿namespace System.Text.Json
+﻿namespace System.Text.Json;
+
+/// <summary>
+/// json extensions.
+/// </summary>
+public static class JsonSerializationExtensions
 {
     /// <summary>
-    /// json extensions.
+    /// deserializes the given Type from json.
     /// </summary>
-    public static class JsonSerializationExtensions
+    /// <typeparam name="T"></typeparam>
+    /// <param name="json">The json.</param>
+    /// <param name="config">The configuration.</param>
+    /// <returns>returns the deserialized object.</returns>
+    public static T? JsonDeserialize<T>(this string json, Action<JsonSerializerOptions>? config = null)
     {
-        /// <summary>
-        /// deserializes the given Type from json.
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="json">The json.</param>
-        /// <param name="config">The configuration.</param>
-        /// <returns>returns the deserialized object.</returns>
-        public static T JsonDeserialize<T>(this string json, Action<JsonSerializerOptions> config = null)
-        {
-            JsonSerializerOptions options = null;
-            if (config.IsNotNull())
-            {
-                options = new JsonSerializerOptions();
-                config(options);
+        if (json.IsNullOrEmpty())
+            return default;
 
-                return
-                     JsonSerializer.Deserialize<T>(json, options);
-            }
+        if (config.IsNotNull())
+        {
+            var options = new JsonSerializerOptions();
+            config!(options);
 
             return
-                JsonSerializer.Deserialize<T>(json);
+                 JsonSerializer.Deserialize<T>(json, options);
         }
 
-        /// <summary>
-        /// Converts to json.
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="this">The this.</param>
-        /// <param name="config">The configuration.</param>
-        /// <returns>the json representation.</returns>
-        public static string ToJson<T>(this T @this, Action<JsonSerializerOptions> config = null)
-        {
-            JsonSerializerOptions options = null;
-            if (config.IsNotNull())
-            {
-                options = new JsonSerializerOptions();
-                config(options);
+        return
+            JsonSerializer.Deserialize<T>(json);
+    }
 
-                return
-                JsonSerializer.Serialize(@this, options);
-            }
+    /// <summary>
+    /// Converts to json.
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="this">The this.</param>
+    /// <param name="config">The configuration.</param>
+    /// <returns>the json representation.</returns>
+    public static string ToJson<T>(this T @this, Action<JsonSerializerOptions>? config = null)
+    {            
+        if (config.IsNotNull())
+        {
+            var options = new JsonSerializerOptions();
+            config!(options);
 
             return
-                JsonSerializer.Serialize(@this);
+            JsonSerializer.Serialize(@this, options);
         }
+
+        return
+            JsonSerializer.Serialize(@this);
     }
 }

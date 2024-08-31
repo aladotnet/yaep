@@ -2,7 +2,7 @@
 using System;
 using Xunit;
 
-namespace YAEP.Tests
+namespace YAEPTests
 {
     public class ObjectExtensionsTests
     {
@@ -19,9 +19,9 @@ namespace YAEP.Tests
         [Fact]
         public void IsNull_given_a_non_Null_object_returns_false()
         {
-            Person obj = new Person("Test","Test");
-            var isNull = obj.IsNull();            
-            
+            var obj = new Person("Test", "Test");
+            var isNull = obj.IsNull();
+
             isNull.Should().BeFalse();
         }
 
@@ -38,7 +38,7 @@ namespace YAEP.Tests
         [Fact]
         public void IsNotNull_given_a_non_Null_object_returns_true()
         {
-            Person obj = new Person("Test", "Test");
+            var obj = new Person("Test", "Test");
             var isNotNull = obj.IsNotNull();
 
             isNotNull.Should().BeTrue();
@@ -59,7 +59,7 @@ namespace YAEP.Tests
         [Fact]
         public void DefaultIfNull_given_a_non_null_reference_returns_the_same_value()
         {
-            Person obj = new Person("Test", "Test");
+            var obj = new Person("Test", "Test");
 
             var result = obj.DefaultIfNull(new Person("-", "-"));
 
@@ -69,5 +69,5 @@ namespace YAEP.Tests
         }
     }
 
-   
+
 }

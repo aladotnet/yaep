@@ -16,12 +16,10 @@ namespace System
         /// <returns>the name of the given member.</returns>
         public static string GetName<TObject, TMember>(this Expression<Func<TObject, TMember>> expression)
         {
-            MemberExpression body = expression.Body as MemberExpression;
-
-            if (body == null)
+            if (expression.Body is not MemberExpression body)
             {
                 UnaryExpression ubody = (UnaryExpression)expression.Body;
-                body = ubody.Operand as MemberExpression;
+                body = (MemberExpression)ubody.Operand;
             }
 
             return body.Member.Name;

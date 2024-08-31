@@ -1,5 +1,10 @@
-﻿namespace System
+﻿using System.Reflection;
+
+namespace System
 {
+    /// <summary>
+    /// Reflection extensions.
+    /// </summary>
     public static class ReflectionExtensions
     {
         /// <summary>
@@ -12,16 +17,22 @@
         /// </returns>
         public static bool IsSubClassOfGenericBase(this Type subType, Type genericBaseType)
         {
-            while (subType.IsNotNull() && subType != typeof(object))
+            Type? currentSubType = subType;
+            while (currentSubType.IsNotNull() && currentSubType != typeof(object))
             {
-                var cur = subType.IsGenericType ? subType.GetGenericTypeDefinition() : subType;
-                if (genericBaseType == cur)
+                var current = currentSubType!.IsGenericType ? currentSubType.GetGenericTypeDefinition() : currentSubType;
+                if (genericBaseType == current)
                 {
                     return true;
                 }
-                subType = subType.BaseType;
+
+                currentSubType = currentSubType.BaseType;
             }
             return false;
         }
+
+        public static bool HasCustomAttribute<TAttribute>(this Type type)
+            where TAttribute : Attribute
+            => type.GetCustomAttribute<TAttribute>().IsNotNull();
     }
 }

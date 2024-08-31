@@ -1,4 +1,4 @@
-﻿namespace System
+namespace System
 {
     /// <summary>
     /// Exceptions extension methods.
@@ -14,7 +14,12 @@
         /// <returns></returns>
         /// <exception cref="System.ArgumentNullException"></exception>
         public static T GuardAgainstNull<T>(this T value, string parameterName)
-            => !ReferenceEquals(value, null) ? value : throw new ArgumentNullException(parameterName);
+            => value is not null ? value : throw new ArgumentNullException(parameterName);
+
+        public static T GuardAgainstNull<T,TException>(this T value, TException exception)
+            where TException : Exception
+            => value is not null ? value : throw exception;
+
 
         /// <summary>
         /// Guards against the given predicate.
@@ -51,6 +56,25 @@
 
             return value;
         }
+
+        /// <summary>
+        /// Guards against the given predicate.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <typeparam name="TException">The type of the exception.</typeparam>
+        /// <param name="value">The value.</param>
+        /// <param name="predicate">The predicate.</param>
+        /// <param name="message">The message.</param>
+        /// <returns></returns>
+        public static T GuardAgainst<T,TException>(this T value, Func<T, bool> predicate, string message)
+            where TException : Exception
+        {
+            predicate.GuardAgainstNull(nameof(predicate));
+
+            return
+            value.GuardAgainst(predicate, (TException)Activator.CreateInstance(typeof(TException), args: message)!);
+        }
+
 
         /// <summary>
         /// Guards the against null or empty.

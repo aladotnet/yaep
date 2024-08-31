@@ -1,9 +1,18 @@
-﻿using System.Linq;
+using System.Linq;
 
 namespace System.Collections.Generic
 {
+    /// <summary>
+    /// Collection extensions methods.
+    /// </summary>
     public static class CollectionsUtils
     {
+        /// <summary>
+        /// Checks whether the given list is null or empty.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="list"></param>
+        /// <returns>true if null or empty, false if not.</returns>
         public static bool IsNullOrEmpty<T>(this IEnumerable<T> list) => list.IsNull() || !list.Any();
 
         /// <summary>
@@ -14,11 +23,24 @@ namespace System.Collections.Generic
         /// <returns></returns>
         public static bool IsNotEmpty<T>(this IEnumerable<T> list) => !list.IsNull() && list.Any();
 
+        /// <summary>
+        /// Converts the given list to a readonly list.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="items"></param>
+        /// <returns></returns>
         public static IReadOnlyList<T> ToReadOnlyList<T>(this IEnumerable<T> items)
             => items?.ToList()?.AsReadOnly()
              ?? Enumerable.Empty<T>()
                 .ToList().AsReadOnly();
 
+        /// <summary>
+        /// Replaces the given instance with an empty collection if it is null.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="list"></param>
+        /// <returns>Enumerable.Empty if the given collection is null.
+        /// </returns>
         public static IEnumerable<T> EmptyIfNull<T>(this IEnumerable<T> list)
         {
             return list ?? Enumerable.Empty<T>();
@@ -49,6 +71,7 @@ namespace System.Collections.Generic
         /// <typeparam name="T"></typeparam>
         /// <param name="list"></param>
         /// <param name="value"></param>
+        /// <param name="comparer"></param>
         /// <returns></returns>
 
         public static bool TryAdd<T>(this ICollection<T> list, T value, IEqualityComparer<T> comparer)
@@ -69,6 +92,7 @@ namespace System.Collections.Generic
         /// <typeparam name="T"></typeparam>
         /// <param name="list"></param>
         /// <param name="value"></param>
+        /// <param name="comparer"></param>
         /// <returns></returns>
 
         public static bool TryAdd<T>(this ICollection<T> list, T value, Func<T, T, bool> comparer)
@@ -187,10 +211,10 @@ namespace System.Collections.Generic
 
             var item = list.SingleOrDefault(predicate);
 
-            if (EqualityComparer<TValue>.Default.Equals(item, default(TValue)))
+            if (EqualityComparer<TValue>.Default.Equals(item, default))
                 return false;
 
-            var index = list.IndexOf(item);
+            var index = list.IndexOf(item!);
             list[index] = value;
             return true;
         }
@@ -207,6 +231,9 @@ namespace System.Collections.Generic
             list.GuardAgainstNull(nameof(list));
             predicate.GuardAgainstNull(nameof(predicate));
 
+            if(list.IsNullOrEmpty()) 
+                return false;
+
             var items = list.Where(predicate)
                             .ToArray();
 
@@ -221,6 +248,13 @@ namespace System.Collections.Generic
             return true;
         }
 
+        /// <summary>
+        /// Remove all entries that matches the condition.
+        /// </summary>
+        /// <typeparam name="TValue"></typeparam>
+        /// <param name="list"></param>
+        /// <param name="predicate"></param>
+        /// <returns>true if entries has been removed, false if not.</returns>
         public static bool RemoveWhereNot<TValue>(this ICollection<TValue> list, Func<TValue, bool> predicate)
         {
             return list.RemoveWhere(v => !predicate(v));
