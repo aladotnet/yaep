@@ -107,8 +107,9 @@ class Build : NukeBuild
         .DependsOn(Clean)
         .Executes(() =>
         {
-            DotNetRestore(s => s
-                .SetProjectFile(Solution.Extensions.CoreExtensions));
+            DotNetRestore();
+            //DotNetRestore(s => s
+            //    .SetProjectFile(Solution.Projects.First(p=> p.Name.StartsWith("CoreExtensions"))));
         });
 
     Target Compile => _ => _
@@ -117,7 +118,7 @@ class Build : NukeBuild
         .Executes(() =>
         {
             DotNetBuild(_ => _
-                .SetProjectFile(Solution.Extensions.CoreExtensions)
+                .SetProjectFile(Solution.Projects.First(p => p.Name.StartsWith("CoreExtensions")))
                 .SetConfiguration(Configuration)
                 .SetAssemblyVersion(GitVersion.AssemblySemVer)
                 .SetFileVersion(GitVersion.AssemblySemFileVer)
@@ -149,7 +150,7 @@ class Build : NukeBuild
           Serilog.Log.Information("Solution ");
 
           DotNetPack(s => s
-              .SetProject(Solution.Extensions.CoreExtensions)
+              .SetProject(Solution.Projects.First(p => p.Name.StartsWith("CoreExtensions")))
               .SetPackageId("yaep")
               .SetOutputDirectory(ArtifactsDirectory)
               .SetNoBuild(SucceededTargets.Contains(Compile))
@@ -167,8 +168,8 @@ class Build : NukeBuild
        .OnlyWhenStatic(() => GitRepository.IsOnDevelopBranch() || GitHubActions.IsPullRequest)
        .Executes(() =>
        {
-           GlobFiles(ArtifactsDirectory, ArtifactsType)
-               .Where(x => !x.EndsWith(ExcludedArtifactsType))
+           ArtifactsDirectory.GlobFiles( ArtifactsType)
+               .Where(x => !x.Name.EndsWith(ExcludedArtifactsType))
                .ForEach(x =>
                {
                    DotNetNuGetPush(s => s
@@ -193,9 +194,8 @@ class Build : NukeBuild
                Serilog.Log.Warning("No API Key found");
                return;
            }
-
-           GlobFiles(ArtifactsDirectory, ArtifactsType)
-               .Where(x => !x.EndsWith(ExcludedArtifactsType))
+           ArtifactsDirectory.GlobFiles(ArtifactsType)
+               .Where(x => !x.Name.EndsWith(ExcludedArtifactsType))
                .ForEach(x =>
                {
                    DotNetNuGetPush(s => s
@@ -257,8 +257,8 @@ class Build : NukeBuild
                Serilog.Log.Error("ArtifactsType is null");
                return;
            }
-           var globalfiles = GlobFiles(ArtifactsDirectory, ArtifactsType)
-                         .Where(x => !x.EndsWith(ExcludedArtifactsType)).ToArray();
+           var globalfiles = ArtifactsDirectory.GlobFiles(ArtifactsType)
+                         .Where(x => !x.Name.EndsWith(ExcludedArtifactsType)).ToArray();
 
            if (globalfiles.IsNullOrEmpty())
            {
@@ -271,8 +271,8 @@ class Build : NukeBuild
                Serilog.Log.Information("Globalfile : {0}", item);
            }
 
-           GlobFiles(ArtifactsDirectory, ArtifactsType)
-              .Where(x => !x.EndsWith(ExcludedArtifactsType))
+           ArtifactsDirectory.GlobFiles(ArtifactsType)
+              .Where(x => !x.Name.EndsWith(ExcludedArtifactsType))
               .ForEach(async x => await UploadReleaseAssetToGithub(createdRelease, x));
 
            await GitHubTasks

@@ -22,10 +22,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Update="System.Text.Json" Version="8.0.0" />
+    <ProjectReference Include="..\..\src\CoreExtensions\CoreExtensions.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\CoreExtensions\CoreExtensions.csproj" />
+    <PackageReference Update="System.Text.Json" Version="8.0.0" />
   </ItemGroup>
 </Project>

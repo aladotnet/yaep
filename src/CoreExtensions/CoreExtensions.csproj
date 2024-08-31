@@ -12,13 +12,15 @@
 	  <OutputType>Library</OutputType>
 	  <IsPackable>true</IsPackable>
 	  <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
-	  <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+	  <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
 	  <PackageId>YAEP</PackageId>
 	  <PackageProjectUrl>https://github.com/aladotnet/yaep</PackageProjectUrl>
 	  <PackageIcon>YAEP.png</PackageIcon>
 	  <PackageLicenseExpression>MIT</PackageLicenseExpression>
 	  <PackageTags>c#;dotnet;extensions;utils</PackageTags>
 	  <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 	<ItemGroup>
    
