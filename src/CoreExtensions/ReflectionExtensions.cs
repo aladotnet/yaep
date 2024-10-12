@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿using System.Collections.Immutable;
+using System.Reflection;
 
 namespace System
 {
@@ -34,5 +35,36 @@ namespace System
         public static bool HasCustomAttribute<TAttribute>(this Type type)
             where TAttribute : Attribute
             => type.GetCustomAttribute<TAttribute>().IsNotNull();
+
+        public static bool IsStatic(this Type type)=> type.IsAbstract && type.IsSealed;
+
+        public static ImmutableHashSet<Assembly> LoadReferencedAssemblies(this  Assembly assembly)
+        {
+            var assemblyNames = assembly
+                               .GetReferencedAssemblies()
+                               .ToImmutableHashSet();
+
+            return LoadAssemblies(assemblyNames);
+        }
+
+        private static ImmutableHashSet<Assembly> LoadAssemblies(ImmutableHashSet<AssemblyName> assemblyNames)
+        {
+            var assemblies = new HashSet<Assembly>();
+
+            foreach (var assemblyName in assemblyNames)
+            {
+                try
+                {
+                    // Try to load the referenced assembly...
+                    assemblies.Add(Assembly.Load(assemblyName));
+                }
+                catch
+                {
+                    // Failed to load assembly. Skip it.
+                }
+            }
+
+            return assemblies.ToImmutableHashSet();
+        }
     }
 }
