@@ -259,5 +259,10 @@ namespace System.Collections.Generic
         {
             return list.RemoveWhere(v => !predicate(v));
         }
+
+        public static void ForEach<T>(IEnumerable<T> items,Action<T> action)
+        {
+            foreach (var item in items) action(item);
+        }
     }
 }
