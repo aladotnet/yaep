@@ -21,8 +21,8 @@
 	  <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <FileVersion>2.0.7</FileVersion>
-    <Version>2.0.7</Version>
+    <FileVersion>2.0.8</FileVersion>
+    <Version>2.0.8</Version>
   </PropertyGroup>
 	<ItemGroup>
    
