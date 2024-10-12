@@ -32,6 +32,10 @@ namespace System
             return false;
         }
 
+        public static IEnumerable<Type> TypesWhere(this IEnumerable<Assembly> assemblies, Func<Type, bool> predicate)
+        => assemblies.SelectMany(assembly => assembly.GetTypes())
+                     .Where(predicate);
+
         public static bool HasCustomAttribute<TAttribute>(this Type type)
             where TAttribute : Attribute
             => type.GetCustomAttribute<TAttribute>().IsNotNull();
