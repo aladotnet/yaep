@@ -68,7 +68,7 @@ namespace System
         /// <typeparam name="TEnum">The type of the enum.</typeparam>
         /// <param name="value">The value.</param>
         /// <returns></returns>
-        public static (string Name, int Value)[] ToNameValuePaires<TEnum>(this TEnum value)
+        public static (string Name, int Value)[] ToNameValuePares<TEnum>(this TEnum value)
         where TEnum : struct
         {
             var names = value.GetNames();
@@ -92,7 +92,7 @@ namespace System
             value.GuardAgainst(v => !v.GetType().IsEnum, $"the given value [{value}] is not an enum");
             name.GuardAgainstNullOrEmpty(nameof(name));
 
-            var valueNames = value.ToNameValuePaires();
+            var valueNames = value.ToNameValuePares();
 
             return
                 valueNames
@@ -112,7 +112,7 @@ namespace System
         {
             @this.GuardAgainst(v => !v.GetType().IsEnum, $"the given value [{value}] is not an enum");
 
-            var valueNames = value.ToNameValuePaires();
+            var valueNames = value.ToNameValuePares();
 
             return
                 valueNames

@@ -46,7 +46,7 @@ public static class XElementExtensions
     public static bool AttributeValueEquals(this XElement element, string attributeName, string value)
     {
         return
-        element?.Attribute(attributeName)?.Value == value;
+        element?.Attribute(attributeName)?.Value?.EqualsIgnoreCaseInvariant(value) ?? false;
     }
 
     /// <summary>
