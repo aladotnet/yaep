@@ -99,7 +99,7 @@ namespace System
         /// <param name="value">The value.</param>
         /// <returns>A bool.</returns>
         public static bool IsGuidValue(this string value)
-        => Guid.TryParse(value, out var g);
+        => Guid.TryParse(value, out _);
 
         /// <summary>
         /// Gets whether the given string represents a numeric value.
