@@ -8,6 +8,38 @@ namespace System.Threading.Tasks;
 public static class TaskExtensions
 {
     /// <summary>
+    /// Configures an awaiter used to await this <see cref="Task"/> without an
+    /// attempt to marshal the continuation back to the original context captured.
+    /// </summary>
+    /// <param name="task"></param>
+    /// <returns></returns>
+    public static ConfiguredTaskAwaitable DetachedAwait(this Task task) => task.ConfigureAwait(false);
+
+    /// <summary>
+    /// Configures an awaiter used to await this <see cref="Task"/> without an
+    /// attempt to marshal the continuation back to the original context captured.
+    /// </summary>
+    /// <param name="task"></param>
+    /// <returns></returns>
+    public static ConfiguredTaskAwaitable<T> DetachedAwait<T>(this Task<T> task) => task.ConfigureAwait(false);
+
+    /// <summary>
+    /// Configures an awaiter used to await this <see cref="Task"/> without an
+    /// attempt to marshal the continuation back to the original context captured.
+    /// </summary>
+    /// <param name="task"></param>
+    /// <returns></returns>
+    public static ConfiguredValueTaskAwaitable DetachedAwait(this ValueTask task) => task.ConfigureAwait(false);
+
+    /// <summary>
+    /// Configures an awaiter used to await this <see cref="Task"/> without an
+    /// attempt to marshal the continuation back to the original context captured.
+    /// </summary>
+    /// <param name="task"></param>
+    /// <returns></returns>
+    public static ConfiguredValueTaskAwaitable<T> DetachedAwait<T>(this ValueTask<T> task) => task.ConfigureAwait(false);
+
+    /// <summary>
     /// gets a Task<typeparamref name="T"/> from the T.
     /// </summary>
     /// <typeparam name="T"></typeparam>

@@ -1,7 +1,7 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-	  <TargetFramework>net8.0</TargetFramework>
-	  <LangVersion>11</LangVersion>
+	  <TargetFramework>net9.0</TargetFramework>
+	  <LangVersion>13</LangVersion>
 	  <ImplicitUsings>enable</ImplicitUsings>
 	  <Description>YAEP Yet another extensions package is a collection of extension methods</Description>
 	  <Authors>Ahmed Layachi</Authors>
@@ -21,11 +21,16 @@
 	  <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <FileVersion>2.0.9</FileVersion>
-    <Version>2.0.9</Version>
+    <FileVersion>2.1.0</FileVersion>
+    <Version>2.1.0</Version>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>
-	<ItemGroup>
-   
+
+  <ItemGroup>
+    <None Include="..\..\README.md" Pack="true" PackagePath="" />
+  </ItemGroup>
+  
+	<ItemGroup>   
 		<None Include="..\..\Images\YAEP.png">
 			<Pack>True</Pack>
 			<PackagePath></PackagePath>
