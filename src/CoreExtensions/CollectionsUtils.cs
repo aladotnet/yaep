@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 
 namespace System.Collections.Generic;
@@ -13,7 +14,7 @@ public static class CollectionsUtils
     /// <typeparam name="T"></typeparam>
     /// <param name="arr"></param>
     /// <returns>true if null or empty, false if not.</returns>
-    public static bool IsNullOrEmpty<T>(this T[] arr) => arr.IsNull() || !arr.Any();
+    public static bool IsNullOrEmpty<T>([NotNullWhen(false)] this T[]? arr) => arr is null || arr.Length == 0;
 
     /// <summary>
     /// checks wether the given collection is not null and not empty
@@ -21,7 +22,7 @@ public static class CollectionsUtils
     /// <typeparam name="T"></typeparam>
     /// <param name="arr"></param>
     /// <returns></returns>
-    public static bool IsNotEmpty<T>(this T[] arr) => !arr.IsNull() && arr.Any();
+    public static bool IsNotEmpty<T>([NotNullWhen(true)] this T[]? arr) => arr is not null && arr.Length > 0;
 
 
     /// <summary>
@@ -30,7 +31,14 @@ public static class CollectionsUtils
     /// <typeparam name="T"></typeparam>
     /// <param name="list"></param>
     /// <returns>true if null or empty, false if not.</returns>
-    public static bool IsNullOrEmpty<T>(this IEnumerable<T> list) => list.IsNull() || !list.Any();
+    public static bool IsNullOrEmpty<T>([NotNullWhen(false)] this IEnumerable<T>? list)
+    {
+        if (list is null) return true;
+        // Optimize for common collection types to avoid enumerator allocation
+        if (list is ICollection<T> collection) return collection.Count == 0;
+        if (list is IReadOnlyCollection<T> readOnlyCollection) return readOnlyCollection.Count == 0;
+        return !list.Any();
+    }
 
     /// <summary>
     /// checks wether the given collection is not null and not empty
@@ -38,7 +46,14 @@ public static class CollectionsUtils
     /// <typeparam name="T"></typeparam>
     /// <param name="list"></param>
     /// <returns></returns>
-    public static bool IsNotEmpty<T>(this IEnumerable<T> list) => !list.IsNull() && list.Any();
+    public static bool IsNotEmpty<T>([NotNullWhen(true)] this IEnumerable<T>? list)
+    {
+        if (list is null) return false;
+        // Optimize for common collection types to avoid enumerator allocation
+        if (list is ICollection<T> collection) return collection.Count > 0;
+        if (list is IReadOnlyCollection<T> readOnlyCollection) return readOnlyCollection.Count > 0;
+        return list.Any();
+    }
 
     /// <summary>
     /// Converts the given arr to a readonly arr.
@@ -112,9 +127,15 @@ public static class CollectionsUtils
 
     public static bool TryAdd<T>(this ICollection<T> list, T value, Func<T, T, bool> comparer)
     {
+        list.GuardAgainstNull(nameof(list));
         comparer.GuardAgainstNull(nameof(comparer));
-        if (list.Any(v => comparer(v, value)))
-            return false;
+
+        // Manual iteration to avoid LINQ closure allocation
+        foreach (var item in list)
+        {
+            if (comparer(item, value))
+                return false;
+        }
 
         list.Add(value);
         return true;
@@ -192,19 +213,18 @@ public static class CollectionsUtils
         list.GuardAgainstNull(nameof(list));
         predicate.GuardAgainstNull(nameof(predicate));
 
-        var items = list.Where(predicate)
-                        .ToArray();
-
-        if (items.IsNullOrEmpty())
-            return false;
-
-        foreach (var item in items)
+        // Use index-based iteration to avoid allocation and allow in-place replacement
+        var replaced = false;
+        for (var i = 0; i < list.Count; i++)
         {
-            int index = list.IndexOf(item);
-            list[index] = value;
+            if (predicate(list[i]))
+            {
+                list[i] = value;
+                replaced = true;
+            }
         }
 
-        return true;
+        return replaced;
     }
 
     /// <summary>
@@ -224,13 +244,22 @@ public static class CollectionsUtils
         list.GuardAgainstNull(nameof(list));
         predicate.GuardAgainstNull(nameof(predicate));
 
-        var item = list.SingleOrDefault(predicate);
+        // Manual iteration to avoid LINQ closure allocation
+        var foundIndex = -1;
+        for (var i = 0; i < list.Count; i++)
+        {
+            if (predicate(list[i]))
+            {
+                if (foundIndex >= 0)
+                    throw new InvalidOperationException("Sequence contains more than one matching element");
+                foundIndex = i;
+            }
+        }
 
-        if (EqualityComparer<TValue>.Default.Equals(item, default))
+        if (foundIndex < 0)
             return false;
 
-        var index = list.IndexOf(item!);
-        list[index] = value;
+        list[foundIndex] = value;
         return true;
     }
 
@@ -246,16 +275,37 @@ public static class CollectionsUtils
         list.GuardAgainstNull(nameof(list));
         predicate.GuardAgainstNull(nameof(predicate));
 
-        if(list.IsNullOrEmpty()) 
+        if (list.IsNullOrEmpty())
             return false;
 
-        var items = list.Where(predicate)
-                        .ToArray();
+        // Optimize for IList<T> to avoid allocation by iterating backwards
+        if (list is IList<TValue> ilist)
+        {
+            var removed = false;
+            for (var i = ilist.Count - 1; i >= 0; i--)
+            {
+                if (predicate(ilist[i]))
+                {
+                    ilist.RemoveAt(i);
+                    removed = true;
+                }
+            }
+            return removed;
+        }
 
-        if (items.IsNullOrEmpty())
+        // Fallback: collect items to remove (requires allocation)
+        // Use stackalloc for small collections to minimize heap allocation
+        var toRemove = new List<TValue>();
+        foreach (var item in list)
+        {
+            if (predicate(item))
+                toRemove.Add(item);
+        }
+
+        if (toRemove.Count == 0)
             return false;
 
-        foreach (var item in items)
+        foreach (var item in toRemove)
         {
             list.Remove(item);
         }

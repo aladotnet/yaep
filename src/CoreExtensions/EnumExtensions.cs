@@ -1,4 +1,4 @@
-﻿using System.Linq;
+using System.Collections.Concurrent;
 
 namespace System
 {
@@ -7,13 +7,17 @@ namespace System
     /// </summary>
     public static class EnumExtensions
     {
+        // Cache for enum values to avoid repeated allocations
+        private static readonly ConcurrentDictionary<Type, Array> ValuesCache = new();
+        private static readonly ConcurrentDictionary<Type, string[]> NamesCache = new();
+        private static readonly ConcurrentDictionary<Type, (string Name, int Value)[]> NameValuePairsCache = new();
+
         //todo: should be tested
         internal static TEnum ToEnum<TEnum>(this string value)
             where TEnum : struct
         {
             value.GuardAgainstNullOrEmpty(nameof(value));
-            return
-            (TEnum)Enum.Parse(typeof(TEnum), value, true);
+            return (TEnum)Enum.Parse(typeof(TEnum), value, true);
         }
 
         /// <summary>
@@ -23,17 +27,16 @@ namespace System
         /// <param name="value">The value.</param>
         /// <param name="defaultValue">The default value.</param>
         /// <returns></returns>
-        public static TEnum ToEnum<TEnum>(this string value, TEnum defaultValue)
+        public static TEnum ToEnum<TEnum>(this string? value, TEnum defaultValue)
             where TEnum : struct
         {
-            return
-            Enum.TryParse(value, true, out TEnum result)
-            ? result
-            : defaultValue;
+            return Enum.TryParse(value, true, out TEnum result)
+                ? result
+                : defaultValue;
         }
 
         /// <summary>
-        /// Gets the values.
+        /// Gets the values. Results are cached per enum type.
         /// </summary>
         /// <typeparam name="TEnum">The type of the enum.</typeparam>
         /// <param name="value">The value.</param>
@@ -41,42 +44,55 @@ namespace System
         public static Array GetValues<TEnum>(this TEnum value)
             where TEnum : struct
         {
-            value.GuardAgainst(v => !v.GetType().IsEnum, $"the given value [{value}] is not an enum");
+            var type = typeof(TEnum);
+            if (!type.IsEnum)
+                throw new ArgumentException($"the given value [{value}] is not an enum");
 
-            return
-            Enum.GetValues(typeof(TEnum));
+            return ValuesCache.GetOrAdd(type, static t => Enum.GetValues(t));
         }
 
         /// <summary>
-        /// Gets the names.
+        /// Gets the names. Results are cached per enum type.
         /// </summary>
         /// <typeparam name="TEnum">The type of the enum.</typeparam>
         /// <param name="value">The value.</param>
         /// <returns></returns>
         public static string[] GetNames<TEnum>(this TEnum value)
-        where TEnum : struct
+            where TEnum : struct
         {
-            value.GuardAgainst(v => !v.GetType().IsEnum, $"the given value [{value}] is not an enum");
+            var type = typeof(TEnum);
+            if (!type.IsEnum)
+                throw new ArgumentException($"the given value [{value}] is not an enum");
 
-            return
-            Enum.GetNames(typeof(TEnum));
+            return NamesCache.GetOrAdd(type, static t => Enum.GetNames(t));
         }
 
         /// <summary>
-        /// Converts to namevaluepaires.
+        /// Converts to namevaluepaires. Results are cached per enum type.
         /// </summary>
         /// <typeparam name="TEnum">The type of the enum.</typeparam>
         /// <param name="value">The value.</param>
         /// <returns></returns>
         public static (string Name, int Value)[] ToNameValuePares<TEnum>(this TEnum value)
-        where TEnum : struct
+            where TEnum : struct
         {
-            var names = value.GetNames();
+            var type = typeof(TEnum);
+            if (!type.IsEnum)
+                throw new ArgumentException($"the given value [{value}] is not an enum");
 
-            return
-            value.GetValues().Cast<int>()
-               .Select((v, index) => (names[index], v))
-               .ToArray();
+            return NameValuePairsCache.GetOrAdd(type, static t =>
+            {
+                var names = Enum.GetNames(t);
+                var values = Enum.GetValues(t);
+                var result = new (string Name, int Value)[names.Length];
+
+                for (var i = 0; i < names.Length; i++)
+                {
+                    result[i] = (names[i], (int)values.GetValue(i)!);
+                }
+
+                return result;
+            });
         }
 
         /// <summary>
@@ -87,17 +103,24 @@ namespace System
         /// <param name="name">The name.</param>
         /// <returns></returns>
         public static int GetValue<TEnum>(this TEnum value, string name)
-        where TEnum : struct
+            where TEnum : struct
         {
-            value.GuardAgainst(v => !v.GetType().IsEnum, $"the given value [{value}] is not an enum");
+            var type = typeof(TEnum);
+            if (!type.IsEnum)
+                throw new ArgumentException($"the given value [{value}] is not an enum");
+
             name.GuardAgainstNullOrEmpty(nameof(name));
 
             var valueNames = value.ToNameValuePares();
 
-            return
-                valueNames
-                .Single(nv => nv.Name.EqualsIgnoreCaseOrdinal(name))
-                .Value;
+            // Manual iteration to avoid LINQ allocation
+            foreach (var (n, v) in valueNames)
+            {
+                if (n.EqualsIgnoreCaseOrdinal(name))
+                    return v;
+            }
+
+            throw new InvalidOperationException($"No enum value found with name '{name}'");
         }
 
         /// <summary>
@@ -108,16 +131,22 @@ namespace System
         /// <param name="value">The value.</param>
         /// <returns></returns>
         public static string GetName<TEnum>(this TEnum @this, int value)
-        where TEnum : struct
+            where TEnum : struct
         {
-            @this.GuardAgainst(v => !v.GetType().IsEnum, $"the given value [{value}] is not an enum");
+            var type = typeof(TEnum);
+            if (!type.IsEnum)
+                throw new ArgumentException($"the given value [{value}] is not an enum");
 
-            var valueNames = value.ToNameValuePares();
+            var valueNames = @this.ToNameValuePares();
 
-            return
-                valueNames
-                .Single(nv => nv.Value.Equals(value))
-                .Name;
+            // Manual iteration to avoid LINQ allocation
+            foreach (var (n, v) in valueNames)
+            {
+                if (v == value)
+                    return n;
+            }
+
+            throw new InvalidOperationException($"No enum name found for value '{value}'");
         }
     }
 }

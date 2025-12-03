@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using System.Text;
 
 namespace System
@@ -14,7 +15,7 @@ namespace System
         /// <returns>
         ///   <c>true</c> if [is null or empty] [the specified value]; otherwise, <c>false</c>.
         /// </returns>
-        public static bool IsNullOrEmpty(this string value)
+        public static bool IsNullOrEmpty([NotNullWhen(false)] this string? value)
         {
             return string.IsNullOrWhiteSpace(value);
         }
@@ -68,9 +69,43 @@ namespace System
             encoding ??= Encoding.UTF8;
 
             if (value.IsNullOrEmpty())
-                return Array.Empty<byte>();
+                return [];
 
             return encoding.GetBytes(value);
+        }
+
+        /// <summary>
+        /// Gets the string bytes using the given encoding (defaults to UTF8) into the provided buffer.
+        /// Allocation-free overload.
+        /// </summary>
+        /// <param name="value">The string value.</param>
+        /// <param name="destination">The destination buffer.</param>
+        /// <param name="encoding">The encoding to use (defaults to UTF8).</param>
+        /// <returns>The number of bytes written to the destination.</returns>
+        public static int ToByteArray(this string value, Span<byte> destination, Encoding? encoding = null)
+        {
+            encoding ??= Encoding.UTF8;
+
+            if (value.IsNullOrEmpty())
+                return 0;
+
+            return encoding.GetBytes(value.AsSpan(), destination);
+        }
+
+        /// <summary>
+        /// Gets the required byte count for encoding the string.
+        /// </summary>
+        /// <param name="value">The string value.</param>
+        /// <param name="encoding">The encoding to use (defaults to UTF8).</param>
+        /// <returns>The number of bytes required.</returns>
+        public static int GetByteCount(this string value, Encoding? encoding = null)
+        {
+            encoding ??= Encoding.UTF8;
+
+            if (value.IsNullOrEmpty())
+                return 0;
+
+            return encoding.GetByteCount(value);
         }
 
         /// <summary>
@@ -86,11 +121,13 @@ namespace System
             if (values.IsNullOrEmpty())
                 return value;
 
-            var result = new List<string> { value };
-
-            result.AddRange(values);
-
-            return string.Concat(result);
+            // Use StringBuilder to avoid List<string> allocation
+            var sb = new StringBuilder(value);
+            foreach (var s in values)
+            {
+                sb.Append(s);
+            }
+            return sb.ToString();
         }
 
         /// <summary>
@@ -111,8 +148,13 @@ namespace System
             if (string.IsNullOrEmpty(value))
                 return false;
 
-            return
-            value.ToArray().All(c => char.IsDigit(c));
+            // Use ReadOnlySpan to avoid allocation from ToArray()
+            foreach (var c in value.AsSpan())
+            {
+                if (!char.IsDigit(c))
+                    return false;
+            }
+            return true;
         }
 
         /// <summary>

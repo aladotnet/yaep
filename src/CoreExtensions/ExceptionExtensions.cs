@@ -1,3 +1,5 @@
+using System.Diagnostics.CodeAnalysis;
+
 namespace System
 {
     /// <summary>
@@ -13,10 +15,10 @@ namespace System
         /// <param name="parameterName">Name of the parameter.</param>
         /// <returns></returns>
         /// <exception cref="System.ArgumentNullException"></exception>
-        public static T GuardAgainstNull<T>(this T value, string parameterName)
+        public static T GuardAgainstNull<T>([NotNull] this T? value, string parameterName)
             => value is not null ? value : throw new ArgumentNullException(parameterName);
 
-        public static T GuardAgainstNull<T,TException>(this T value, TException exception)
+        public static T GuardAgainstNull<T,TException>([NotNull] this T? value, TException exception)
             where TException : Exception
             => value is not null ? value : throw exception;
 
@@ -83,13 +85,16 @@ namespace System
         /// <param name="parameterName">Name of the parameter.</param>
         /// <param name="message">The message.</param>
         /// <returns></returns>
-        public static string GuardAgainstNullOrEmpty(this string value, string parameterName, string message = "")
+        public static string GuardAgainstNullOrEmpty([NotNull] this string? value, string parameterName, string message = "")
         {
-            var ex = message.IsNullOrEmpty() ? new ArgumentNullException(parameterName) : new ArgumentNullException(parameterName, message);
+            if (string.IsNullOrWhiteSpace(value))
+            {
+                throw message.IsNullOrEmpty()
+                    ? new ArgumentNullException(parameterName)
+                    : new ArgumentNullException(parameterName, message);
+            }
 
-            return
-            value
-             .GuardAgainst(v => string.IsNullOrWhiteSpace(v), ex);
+            return value;
         }
     }
 }

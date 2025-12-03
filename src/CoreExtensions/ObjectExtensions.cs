@@ -1,4 +1,6 @@
-﻿namespace System;
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace System;
 
 /// <summary>
 /// Object Extensions.
@@ -13,7 +15,7 @@ public static class ObjectExtensions
     /// <returns>
     ///   <c>true</c> if the specified object is null; otherwise, <c>false</c>.
     /// </returns>
-    public static bool IsNull<T>(this T? obj)
+    public static bool IsNull<T>([NotNullWhen(false)] this T? obj)
         where T : class
     {
         return obj is null;
@@ -27,7 +29,7 @@ public static class ObjectExtensions
     /// <returns>
     ///   <c>true</c> if [is not null] [the specified object]; otherwise, <c>false</c>.
     /// </returns>
-    public static bool IsNotNull<T>(this T? obj)
+    public static bool IsNotNull<T>([NotNullWhen(true)] this T? obj)
         where T : class
     {
         return !obj.IsNull();
